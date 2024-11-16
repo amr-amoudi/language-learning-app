@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 
-
 export default function AddWord({setAdd}){
 
     const [wordsArr,setWordsArr] = useState([]);
@@ -18,7 +17,7 @@ export default function AddWord({setAdd}){
         setForm(prev => {
             return {
                 ...prev,
-                index: JSON.parse(words).length + 1
+                index: JSON.parse(words).length
             }
         })
     } , [])
@@ -51,13 +50,14 @@ export default function AddWord({setAdd}){
         setAdd(false)
     }
 
+    const lang = localStorage.getItem("lang");
 
     return (
         <div className="add--word--display">
             <button onClick={() => setAdd(false)} className="close--btn">x</button>
             <form onSubmit={submitForm}>
                 <div className="word--add add--word--submit--alighn">
-                    <label htmlFor="word">Word</label>
+                    <label htmlFor="word">Word In {JSON.parse(lang).lang}</label>
                     <input
                         className="add--inputs"
                         required={true} id="word"
