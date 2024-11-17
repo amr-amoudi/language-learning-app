@@ -13,10 +13,6 @@ export default function Start(){
 
     function getQuestionWord(arr) {
 
-        if(questionWords.length === 20){
-            return
-        }
-
         let randomWord = getRandomWord(arr);
 
         while (questionWords.includes(randomWord)) {
