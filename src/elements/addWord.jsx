@@ -17,7 +17,7 @@ export default function AddWord({setAdd}){
         setForm(prev => {
             return {
                 ...prev,
-                index: JSON.parse(words).length
+                index: new Date()
             }
         })
     } , [])
