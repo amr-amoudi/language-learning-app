@@ -15,8 +15,6 @@ export function speakText(text, languageCode) {
         loadVoices(); // Ensure voices are loaded
     }
 
-    console.log(voices);
-
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = languageCode;
 

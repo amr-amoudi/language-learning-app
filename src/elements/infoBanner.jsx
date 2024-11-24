@@ -1,6 +1,3 @@
-
-
-
 export default function InfoBanner({timeToDisplay,word,meaning,disc,isRight}){
 
 
