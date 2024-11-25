@@ -7,7 +7,7 @@ export default function App(){
 
     const navigate = useNavigate();
     const wordsArrLength = localStorage.getItem("wordsData");
-    const lang = JSON.parse(localStorage.getItem("lang")).lang;
+    const lang = JSON.parse(localStorage.getItem("lang"))?.lang;
     let disable = false
     let displayError = false
 

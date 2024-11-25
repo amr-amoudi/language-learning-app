@@ -419,7 +419,75 @@ hr{
 }
 
 
+/*============
+-----help-----
+===============*/
 
+details{
+    color: #47e8f1;
+}
+
+.worning{
+    display: flex;
+    align-items: center;
+    width: 70%;
+    max-width: 1200px;
+    background-color: #fffbeb;
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
+.worning > img {
+    align-self: start;
+    margin: 27px 20px;
+}
+
+.worning > h1{
+    font-weight: 500;
+    font-size: 1.75rem;
+    color: #92400e;
+}
+
+.worning > h1 > a{
+    background-color: #fffbeb ;
+    padding: 0;
+    color: #92400e;
+    text-decoration: underline #66FCF1 ;
+    border-radius: 0;
+    font-size: 1.5rem;
+}
+
+h2{
+    display: flex;
+    align-items: center;
+}
+
+.help--links{
+    background-color: #0b0c10 ;
+    padding: 0;
+    color: #47e8c4;
+    text-decoration: underline #66FCF1 ;
+    border-radius: 0;
+    font-size: 1.25rem;
+}
+
+.help--links > a{
+    background-color: #0b0c10 ;
+    padding: 0;
+    border: none;
+    margin-right: 5px;
+}
+
+.app--crash--button{
+    margin: 0;
+    padding: 5px 10px;
+    display: inline;
+    border: none;
+    font-size: 1.4rem;
+    background-color: #fffbeb;
+    color: #924011;
+    text-decoration: #66FCF1 underline;
+}
 
 @media (max-width: 740px) {
 
@@ -446,8 +514,8 @@ hr{
 
     a{
         padding: 20px 10px;
-        font-size: 1rem;
-        width: 47%;
+        font-size: 1.2rem;
+        width: 30%;
         text-align: center;
     }
 
@@ -557,6 +625,62 @@ hr{
 
     .words--button--container{
         height: 55vh;
+    }
+
+
+    /*==============
+    ------help------
+    ===============*/
+
+
+    .gif{
+        width: 95%;
+    }
+
+    .worning{
+        display: flex;
+        align-items: center;
+        width: 95%;
+        max-width: 1200px;
+        background-color: #fffbeb;
+        border-radius: 6px;
+        margin: 20px 0;
+    }
+
+    .worning > img {
+        align-self: start;
+        margin: 27px 20px;
+    }
+
+    .worning > h1{
+        font-weight: 500;
+        font-size: 1.25rem;
+        color: #92400e;
+        padding-left: 10px;
+    }
+
+    .worning > h1 > a{
+        background-color: #fffbeb ;
+        padding: 0;
+        color: #92400e;
+        text-decoration: underline #66FCF1 ;
+        border-radius: 0;
+        font-size: 1.25rem;
+    }
+
+    .help--links{
+        background-color: #0b0c10 ;
+        padding: 0;
+        color: #47e8c4;
+        text-decoration: underline #66FCF1 ;
+        border-radius: 0;
+        font-size: 1.25rem;
+    }
+
+    .help--links > a{
+        background-color: #0b0c10 ;
+        padding: 0;
+        border: none;
     }
 
 }

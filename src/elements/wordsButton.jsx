@@ -1,5 +1,6 @@
 import {useState} from "react";
 import Banner from "../extra/banner.jsx";
+import "../index.css"
 
 
 export default function WordsButton({setDispayCopy,setWords}){
