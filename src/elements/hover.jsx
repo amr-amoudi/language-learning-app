@@ -13,9 +13,8 @@ export default function Hover({word,meaning,dis,handleClick}) {
         borderBottom: dis ? "#66FCF1 solid 0.188rem" : null
     }
 
-    function handleHover(currentWord) {
+    function handleHover() {
         setShow(true)
-        speakText(currentWord, JSON.parse(localStorage.getItem("lang")).code)
     }
 
     return (
@@ -25,8 +24,9 @@ export default function Hover({word,meaning,dis,handleClick}) {
             <h1
                 style={styles}
                 className="word--mening words--hover--heading"
-                onMouseEnter={() => handleHover(word)}
+                onMouseEnter={() => handleHover()}
                 onMouseLeave={() => setShow(false)}
+                onClick={() => speakText(word, JSON.parse(localStorage.getItem("lang")).code)}
             >
                 {show && dis && <p className="element--dis">{dis}</p>}
                 {word}

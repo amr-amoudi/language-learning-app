@@ -5,7 +5,7 @@ import worningImg from "../assets/Exclamation.png"
 import xcircle from "../assets/Xcircle.png"
 import icon from "../assets/Icon.png"
 
-export default function Banner({text, para, color, maxDisplayWidth = "1200px", style,...rest}){
+export default function Banner({text, para, color, maxDisplayWidth = "1200px", styles,...rest}){
 
     const colorImg = {
         green: checkImg,
@@ -45,7 +45,7 @@ export default function Banner({text, para, color, maxDisplayWidth = "1200px", s
     }
 
     return (
-        <div {...rest} style={{backgroundColor: bannerBackgroundColor[color], maxWidth:maxDisplayWidth,...style}} className={"banner--main"}>
+        <div {...rest} style={{backgroundColor: bannerBackgroundColor[color], maxWidth:maxDisplayWidth,...styles}} className={"banner--main"}>
             <img src={colorImg[color]}/>
             <div className="banner--items">
                 <h1 style={headerStyle}>{text}</h1>
