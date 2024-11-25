@@ -187,7 +187,7 @@ button:disabled {
 }
 
 .add--word--btn{
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     padding: 10px 20px;
     margin: 40px auto 0 auto;
 }
@@ -289,6 +289,56 @@ textarea{
     margin: 0;
 }
 
+
+.words--button{
+    display: block;
+    color: #66FCF1;
+    background-color: #1F2833;
+    border: #45A29E 2px solid;
+    border-radius: 5px;
+    font-size: 1.35rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0;
+
+}
+
+.words--button--ex--imp{
+    display: block;
+    color: #66FCF1;
+    background-color: #1F2833;
+    border: #45A29E 2px solid;
+    border-radius: 5px;
+    font-size: 1.35rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0;
+}
+
+hr{
+    width: 100%;
+    color: #45a29e;
+}
+
+.words--button--main{
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.words--button--main--import--sec{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.words--button--main--import--sec > input{
+    margin-bottom: 20px;
+}
+
+
 /*===============
 ------start-----
 =================*/
@@ -363,6 +413,14 @@ textarea{
 .is--wrong{
     border: #b82222 solid 2px;
 }
+
+.gif{
+    width: 800px;
+}
+
+
+
+
 @media (max-width: 740px) {
 
     .banner--main{
@@ -418,9 +476,7 @@ textarea{
         max-width:900px;
     }
 
-    .words--info > h1{
-        font-size: 1.7rem;
-    }
+
 
     .words--hover--heading{
         font-size: 1.3rem;
@@ -497,6 +553,10 @@ textarea{
 
     .info--banner--main > h2{
         font-size: 1.4rem;
+    }
+
+    .words--button--container{
+        height: 55vh;
     }
 
 }

@@ -7,6 +7,7 @@ export default function App(){
 
     const navigate = useNavigate();
     const wordsArrLength = localStorage.getItem("wordsData");
+    const lang = JSON.parse(localStorage.getItem("lang")).lang;
     let disable = false
     let displayError = false
 
@@ -30,8 +31,8 @@ export default function App(){
         <div className="main--app">
             <nav>
                 <Link to="words">Words</Link>
-                <Link className="change" to="change">Change Language</Link>
-                {/*<Link to="help">Help?</Link>*/}
+                <Link className="change" to="change">{lang ? lang : "Change Language"}</Link>
+                <Link to="help">Help?</Link>
             </nav>
             {displayError && <div className={"banner--words--alighn"}>
                 <Banner color={"red"} text={"you need more words"} para={"you must have more than 3 words"}
