@@ -23,6 +23,7 @@ export default function Lang() {
 
     function changeLang() {
         localStorage.setItem("lang", JSON.stringify(newOption));
+        localStorage.removeItem("wordsData")
         navigate("/");
     }
 

@@ -1,14 +1,20 @@
 import {Link} from "react-router-dom";
-import ChoseLang from "../elements/chose-lang.jsx";
+import SelectLangHelp from "../elements/selectLangHelp.jsx";
+import AddWordsHelp from "../elements/addWordsHelp.jsx";
+import StartHelp from "../elements/startHelp.jsx";
+import ExportHelp from "../elements/exportHelp.jsx";
+import ImportHelp from "../elements/importHelp.jsx";
 
 export default function Help(){
     return(
         <div>
-            <h1>help here</h1>
             <Link to="/">to app</Link>
 
-
-            <ChoseLang></ChoseLang>
+            <SelectLangHelp isOpen={!localStorage.getItem("lang")}/>
+            <AddWordsHelp/>
+            <StartHelp/>
+            <ExportHelp/>
+            <ImportHelp/>
         </div>
     )
 }
