@@ -4,7 +4,7 @@ import AddWordsHelp from "../elements/addWordsHelp.jsx";
 import StartHelp from "../elements/startHelp.jsx";
 import ExportHelp from "../elements/exportHelp.jsx";
 import ImportHelp from "../elements/importHelp.jsx";
-
+import "../index.css"
 export default function Help(){
     return(
         <div>
