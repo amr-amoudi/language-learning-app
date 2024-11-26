@@ -53,7 +53,7 @@ export default function Words(){
                     disabled={words.length === 50}
                     onClick={addWord}
                     className="add--word--btn">Add Word</button>}
-                <button onClick={deleteAll} className="add--word--btn">Delete All</button>
+                {lang && <button disabled={words.length === 0} onClick={deleteAll} className="add--word--btn">Delete All</button>}
             </div>
             {!lang && <button className="add--word--btn" onClick={() => navigate("/change")}>chose language</button>}
             <div className={"banner--words--alighn"}>
