@@ -6,6 +6,7 @@ import Lang from "./pages/changeLang.jsx";
 import Words from "./pages/words.jsx";
 import Start from "./pages/start.jsx";
 import Help from "./pages/help.jsx";
+import NoSound from "./pages/no-sound.jsx";
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/words" element={<Words/>} />
             <Route path="/start" element={<Start/>} />
             <Route path="/help" element={<Help/>} />
+            <Route path="/help/sound" element={<NoSound/>} />
         </Routes>
     </BrowserRouter>
 )
