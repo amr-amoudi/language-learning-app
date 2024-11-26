@@ -60,7 +60,7 @@ export default function Words(){
                 {!lang && <Banner color={"red"} text={"chose language"} para={"you must chose a language first"} maxDisplayWidth={"500px"}/>}
             </div>
             <div className="words--info">
-                <Link to="/">Back To App</Link>
+                <Link className={"words--link"} to="/">Back To App</Link>
                 <button onClick={displayCopy} className="words--button" style={{color:"#66fcf1"}}>Words:{words.length}</button>
             </div>
             {words ? displayWords : <h1>there is no words</h1>}
