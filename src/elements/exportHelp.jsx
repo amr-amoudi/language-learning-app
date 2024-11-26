@@ -1,5 +1,4 @@
 import exportHelp from "../assets/export-gif.gif"
-import Banner from "../extra/banner.jsx";
 
 
 export default function ExportHelp(){
@@ -7,9 +6,11 @@ export default function ExportHelp(){
         <div>
             <details>
                 <summary>share your words</summary>
-                <p>go to the words section and click on the words button</p>
-                <p>then click on export words</p>
-                <img className={"gif"} src={exportHelp} alt=""/>
+                <div className={"details--help--content"}>
+                    <p style={{marginTop:"20px"}} className={"big--font"}>go to the words section and click on the words button</p>
+                    <p className={"big--font"}>then click on export words</p>
+                    <img className={"gif"} src={exportHelp} alt=""/>
+                </div>
             </details>
         </div>
     )

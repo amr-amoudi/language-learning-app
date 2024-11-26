@@ -6,7 +6,7 @@ export default function Hover({word,meaning,dis,handleClick}) {
 
     const [show, setShow] = React.useState(false);
 
-    const isMobile = window.matchMedia("(max-width: 440px)").matches;
+    const isMobile = window.matchMedia("(max-width: 740px)").matches;
 
 
     const styles = {

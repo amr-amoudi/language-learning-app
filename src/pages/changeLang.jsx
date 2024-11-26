@@ -33,7 +33,7 @@ export default function Lang() {
 
     return (
         <div className="change--lang">
-            <Link to="/">Back To App</Link>
+            <Link className={"words--link"} to="/">Back To App</Link>
             <select
                 className="change--lang--select"
                 value={JSON.stringify(!didChange ? storedLang : newOption)}

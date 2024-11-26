@@ -8,13 +8,15 @@ import ImportHelp from "../elements/importHelp.jsx";
 export default function Help(){
     return(
         <div>
-            <Link to="/">to app</Link>
+            <Link className={"help--link"} to="/">X</Link>
 
-            <SelectLangHelp isOpen={!localStorage.getItem("lang")}/>
-            <AddWordsHelp/>
-            <StartHelp/>
-            <ExportHelp/>
-            <ImportHelp/>
+            <div className={"help--content"}>
+                <SelectLangHelp isOpen={!localStorage.getItem("lang")}/>
+                <AddWordsHelp/>
+                <StartHelp/>
+                <ExportHelp/>
+                <ImportHelp/>
+            </div>
         </div>
     )
 }
