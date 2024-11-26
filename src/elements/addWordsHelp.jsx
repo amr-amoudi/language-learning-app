@@ -1,6 +1,6 @@
 import addWordGif from "../assets/add-word-gif.gif"
 import Banner from "../extra/banner.jsx";
-
+import "../index.css"
 
 export default function AddWordsHelp() {
     const isMobile = window.matchMedia("(max-width: 440px)").matches;

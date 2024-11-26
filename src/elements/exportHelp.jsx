@@ -1,5 +1,5 @@
 import exportHelp from "../assets/export-gif.gif"
-
+import "../index.css"
 
 export default function ExportHelp(){
     return(

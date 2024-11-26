@@ -2,6 +2,7 @@ import importHelp from "../assets/improt-help-gif.gif"
 import Banner from "../extra/banner.jsx";
 import worningImg from "../assets/Exclamation.png";
 import {useNavigate} from "react-router-dom";
+import "../index.css"
 
 export default function ImportHelp(){
 
