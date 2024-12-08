@@ -7,7 +7,7 @@ export default function SelectLangHelp({isOpen}){
     return (
         <div>
             <details open={isOpen}>
-                <summary>selecting a language</summary>
+                <summary>select a language</summary>
                 <div className={"details--help--content"}>
                     <p className={"big--paragraph"}>By choosing a language, you will enable the text-to-speech feature.</p>
                     <img className="gif" src={choselangGif} alt="a gif showing how to use the change language feature"/>
