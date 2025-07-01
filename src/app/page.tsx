@@ -6,8 +6,8 @@ export default function Page() {
   // const navigate = useNavigate();
   // const wordsArrLength = localStorage.getItem("wordsData");
   // const lang = JSON.parse(localStorage.getItem("lang")!)?.lang;
-  let disable = false
-  let displayError = false
+  const disable = false
+  const displayError = false
 
   // if (wordsArrLength) {
   //   if (JSON.parse(wordsArrLength).length <= 3) {

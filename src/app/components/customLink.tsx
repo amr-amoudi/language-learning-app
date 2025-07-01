@@ -12,7 +12,7 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 export default function CustomLink({ href, className, children, ...rest }: Props) {
-  const [wantedText, _] = useLocalStorage('lang', '');
+  const [wantedText] = useLocalStorage('lang', '');
   const fallbackText = children
   return <Link className={className} href={href} {...rest}>{
     wantedText ? wantedText : fallbackText
