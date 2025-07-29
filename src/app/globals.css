@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+@theme {
+  --color-app_blue: #335c67;
+  --color-app_yellow: #fff3b0;
+  --color-app_orange: #e09f3e;
+  --color-app_red-light: #9e2a2b;
+  --color-app_red-dark: #540b0e;
+  --color-transperint-white: rgba(255, 255, 255, 0.6);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.side-shadow-right {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.side-shadow-left {
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
+}
+
+.modal-slide {
+  transform: translate(0, 0);
+  transition: transform 500ms ease-in-out;
+}
+
+.closed-modal {
+  transform: translateY(100%);
+}
+
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-100px);
+  }
+
+  to {
+    transform: translateX(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-slide-in {
+  animation: slide-in-from-left 0.4s ease-out;
 }
