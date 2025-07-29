@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 @theme {
   --color-app_blue: #335c67;
   --color-app_yellow: #fff3b0;
@@ -40,3 +39,4 @@
 .animate-slide-in {
   animation: slide-in-from-left 0.4s ease-out;
 }
+
