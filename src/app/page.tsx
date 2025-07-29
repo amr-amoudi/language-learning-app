@@ -1,43 +1,22 @@
-//import Banner from "./extra/banner.jsx";
-import React from "react";
-import NavBar from "./components/Nav";
+import Link from "next/link";
 
-export default function Page() {
-  // const navigate = useNavigate();
-  // const wordsArrLength = localStorage.getItem("wordsData");
-  // const lang = JSON.parse(localStorage.getItem("lang")!)?.lang;
-  const disable = false
-  const displayError = false
-
-  // if (wordsArrLength) {
-  //   if (JSON.parse(wordsArrLength).length <= 3) {
-  //     disable = true
-  //     displayError = true
-  //   }
-  //
-  //   if (JSON.parse(wordsArrLength).length === 0) {
-  //     disable = true
-  //     displayError = false
-  //   }
-  // }
-
-  // if (!localStorage.getItem("wordsData")) {
-  //   localStorage.setItem("wordsData", JSON.stringify([]))
-  // }
-
+export default async function mainPage() {
   return (
-    <div className="h-screen w-screen overflow-hidden">
-      <NavBar />
-      <div className="flex items-center justify-center h-full w-full"> {/* Flex container for centering */}
-        {displayError && <div className={"banner--words--alighn"}>
-        </div>}
-        <button
-          className="text-white px-4 py-2 rounded cursor-pointer mb-20 border-[#45A29E] border-2 max-w-[100px] bg-[#1F2833]"
-          disabled={disable}
-        >
-          START
+    <div className="text-app_yellow grid-cols-3 grid-rows-3 grid w-screen h-screen overflow-hidden px-4 py-5 m-0 md:max-w-[1500] md:mx-auto">
+      <div className="col-span-1">
+        <Link className="font-medium bg-app_orange text-app_red-dark px-2 py-2 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow" href={'/words'}>Words</Link>
+      </div>
+      <div className="col-end-4 col-start-3 flex justify-end items-start">
+        <button className="flex flex-col gap-1 cursor-pointer">
+          <div className="w-7 h-1.5 bg-amber-500"></div>
+          <div className="w-7 h-1.5 bg-amber-500"></div>
+          <div className="w-7 h-1.5 bg-amber-500"></div>
         </button>
+      </div>
+      <div className="col-end-3 col-start-2 row-end-3 row-start-2 flex justify-center items-center">
+        <button className="cursor-pointer text-xl font-medium bg-app_orange text-app_red-dark px-5 py-3 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow">Start!</button>
       </div>
     </div>
   )
 }
+

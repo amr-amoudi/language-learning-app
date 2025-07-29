@@ -1,14 +1,16 @@
 import { ReactNode } from "react";
-import '@/app/globals.css'
+import "@/app/globals.css"
+import { Metadata } from "next";
 
-interface props {
-  children: ReactNode
-}
+export const metadata: Metadata = {
+  title: "vocaty",
+  description: "vocabilary learning app",
+};
 
-export default function Layout({ children }: props) {
+export default function layOut({ children }: { children: ReactNode }) {
   return (
     <html>
-      <body className="bg-[#0B0C10]">
+      <body className="bg-app_blue">
         {children}
       </body>
     </html>
