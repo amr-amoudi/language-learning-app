@@ -1,6 +1,6 @@
 'use client'
 
-import { Deck } from "@/app/lib/db_types";
+import { Deck } from "@/app/lib/types";
 import DecksSlider from "./DecksSlider";
 import { Dispatch, ReactHTMLElement, ReactNode, ReducerState, SetStateAction, useReducer, useState } from "react";
 import PhoneModal from "@/app/components/PhoneModal";
@@ -36,9 +36,9 @@ interface reducerActions {
 }
 
 function reducer(state: reducerState, actions: reducerActions): reducerState {
-  let newState = { ...state }
+  const newState = { ...state }
 
-  actions.type.map(currentType => {
+  actions.type.forEach(currentType => {
     switch (currentType) {
       case 'is-closed':
         newState.isClosed = actions.isClosed ?? newState.isClosed
@@ -74,9 +74,9 @@ export default function WordsPageContent({ decks }: { decks: Deck[] }) {
     })
   }
 
-  function updateDecksState(newState: Deck[]) {
-    update({ type: [reducerActionsKinds.decks], decks: decks })
-  }
+  // function updateDecksState(newState: Deck[]) {
+  //   update({ type: [reducerActionsKinds.decks], decks: decks })
+  // }
 
   function setCurrentDeck(currentDeckVale: string) {
     update({ type: [reducerActionsKinds.currentDeck], currentDeck: currentDeckVale })

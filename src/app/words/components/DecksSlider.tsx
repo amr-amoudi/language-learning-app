@@ -1,6 +1,6 @@
 "use client"
 
-import { Deck } from "@/app/lib/db_types";
+import { Deck } from "@/app/lib/types";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';

@@ -2,6 +2,7 @@
 
 import { z } from 'zod'
 import { createNewDeck } from './db';
+import { ActionResult } from './types';
 
 const CreateDeckSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -14,11 +15,10 @@ function returnServerErrors() {
   }
 }
 
-export async function createDeckAction(prevState: any, formData: FormData) {
+export async function createDeckAction(prevState: unknown, formData: FormData): Promise<ActionResult> {
   const validatedFields = CreateDeckSchema.safeParse({
     name: formData.get('name'),
   });
-
 
   if (!validatedFields.success) {
     return {
@@ -28,14 +28,14 @@ export async function createDeckAction(prevState: any, formData: FormData) {
   }
 
   try {
-    const newDeck = await createNewDeck('c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', validatedFields.data?.name)
+    const newDeck = await createNewDeck('c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', validatedFields.data.name);
 
     return {
       message: 'ok',
-      values: newDeck
-    }
-  } catch (e) {
-    return returnServerErrors()
+      successValue: newDeck,
+    };
+  } catch (_) {
+    return returnServerErrors();
   }
 }
 

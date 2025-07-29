@@ -21,6 +21,11 @@ export type Card = {
   user_id: string,
 }
 
+export type ActionResult = {
+  message?: string;
+  errors?: Record<string, string[]>;
+  successValue?: unknown;
+};
 
 
 

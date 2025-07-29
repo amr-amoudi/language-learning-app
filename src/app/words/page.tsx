@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { getDecksForUser } from "../lib/db"
-import { Deck } from "../lib/db_types"
+import { Deck } from "../lib/types"
 import WordsPageContent from './components/WordsPageContent'
 
 export default async function WordsPage() {

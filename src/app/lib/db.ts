@@ -1,7 +1,7 @@
 'use server'
 
 import postgres from "postgres"
-import { Deck, Card } from "./db_types";
+import { Deck, Card } from "./types";
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: false })
 
