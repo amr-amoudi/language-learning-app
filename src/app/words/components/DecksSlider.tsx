@@ -12,12 +12,14 @@ export default function DecksSlider({ decks, setCurrentDeck }: { decks: Deck[], 
 
   // the requist of the words is delayed to wait for the users selection
   useEffect(() => {
-    const timeOut = setTimeout(() => {
-      setCurrentDeck(decks[currentIndex].id)
-    }, 650)
+    if (currentIndex !== undefined) {
+      const timeOut = setTimeout(() => {
+        setCurrentDeck(decks[currentIndex].id)
+      }, 650)
 
-    return () => clearTimeout(timeOut)
-  }, [currentIndex])
+      return () => clearTimeout(timeOut)
+    }
+  }, [decks, currentIndex])
 
   return (
     <div className="relative w-full max-w-screen overflow-hidden">

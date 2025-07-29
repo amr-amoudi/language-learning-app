@@ -1,30 +1,47 @@
 'use client'
 
-import { ReactNode, useActionState } from "react";
+import { ReactNode, useActionState, useContext, useEffect } from "react";
 import { buttonClasses } from "../lib/reuse-classes";
 import ErrorBanner from "./ErrorBanner";
 import returnErrorMessages from "../util/return-error-messages";
 import type { ActionResult } from "../lib/types";
+import { ModalContext } from "./PhoneModal";
+
 
 interface FormForModalsProps {
   children: ReactNode;
   action: (prev: unknown, FormData: FormData) => Promise<ActionResult>;
   buttonText: string;
-  isOpen: boolean;
+  onSuccess?: (data: ActionResult) => void;
 }
 
-export default function FormForModals({ children, action, buttonText, isOpen }: FormForModalsProps) {
+export default function FormForModals({ children, action, buttonText, onSuccess }: FormForModalsProps) {
+  const { isOpen, setIsOpen } = useContext(ModalContext)
+
   const initialState: ActionResult = {
-    message: '',
+    succeeded: false,
     errors: {},
     successValue: undefined,
   };
   const [state, formAction, isPending] = useActionState(action, initialState);
 
-  return (
-    <form action={formAction}>
 
-      {state?.message && state?.errors && isOpen && returnErrorMessages({ errors: state.errors }).map((message: string) => <ErrorBanner key={message + Date.now()}>{message}</ErrorBanner>)}
+  useEffect(() => {
+    if (state.succeeded) {
+      setIsOpen(false)
+      if (onSuccess) {
+        onSuccess(state);
+      }
+    }
+  }, [state])
+
+  return (
+    <form className="pb-[10%]" action={formAction}>
+
+      {!state?.succeeded &&
+        state?.errors &&
+        isOpen &&
+        returnErrorMessages({ errors: state.errors }).map((message: string) => <ErrorBanner key={message + Date.now()}>{message}</ErrorBanner>)}
 
       {children}
 

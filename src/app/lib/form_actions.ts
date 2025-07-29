@@ -23,7 +23,7 @@ export async function createDeckAction(prevState: unknown, formData: FormData): 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields.",
+      succeeded: false,
     };
   }
 
@@ -31,7 +31,7 @@ export async function createDeckAction(prevState: unknown, formData: FormData): 
     const newDeck = await createNewDeck('c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', validatedFields.data.name);
 
     return {
-      message: 'ok',
+      succeeded: true,
       successValue: newDeck,
     };
   } catch (_) {

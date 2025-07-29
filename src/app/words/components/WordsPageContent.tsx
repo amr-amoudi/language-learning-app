@@ -1,29 +1,27 @@
 'use client'
 
-import { Deck } from "@/app/lib/types";
+import { ActionResult, Deck } from "@/app/lib/types";
 import DecksSlider from "./DecksSlider";
-import { Dispatch, ReactHTMLElement, ReactNode, ReducerState, SetStateAction, useReducer, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useReducer } from "react";
 import PhoneModal from "@/app/components/PhoneModal";
 import { buttonClasses } from "@/app/lib/reuse-classes";
 import FormForModals from "@/app/components/FormForModals";
 import { createDeckAction } from "@/app/lib/form_actions";
+import CreateDeckFormElements from "@/app/components/CreateDeckFormElements";
+import CreateCardFormElements from "@/app/components/CreateCardFormElements";
 
-interface OpenModalContent {
-  html: ReactNode;
-  isClosed: boolean
-}
 
 enum reducerActionsKinds {
   decks = 'decks',
   currentDeck = 'current-deck',
-  isClosed = 'is-closed',
+  isOpen = 'is-Open',
   modalHtml = 'modal-html'
 }
 
 interface reducerState {
   decks: Deck[],
   currentDeck: string,
-  isClosed: boolean,
+  isOpen: boolean,
   modalHtml: ReactNode
 }
 
@@ -31,7 +29,7 @@ interface reducerActions {
   type: reducerActionsKinds[],
   decks?: Deck[],
   currentDeck?: string,
-  isClosed?: boolean,
+  isOpen?: boolean,
   modalHtml?: ReactNode
 }
 
@@ -40,8 +38,8 @@ function reducer(state: reducerState, actions: reducerActions): reducerState {
 
   actions.type.forEach(currentType => {
     switch (currentType) {
-      case 'is-closed':
-        newState.isClosed = actions.isClosed ?? newState.isClosed
+      case 'is-Open':
+        newState.isOpen = actions.isOpen ?? newState.isOpen
         break;
       case 'decks':
         newState.decks = actions.decks ?? newState.decks
@@ -61,42 +59,68 @@ function reducer(state: reducerState, actions: reducerActions): reducerState {
 }
 
 export default function WordsPageContent({ decks }: { decks: Deck[] }) {
-  const [current, update] = useReducer(reducer, { decks: decks, currentDeck: '', isClosed: true, modalHtml: <></> })
+  const [current, update] = useReducer(reducer, { decks: decks, currentDeck: '', isOpen: false, modalHtml: <></> })
 
   function openCreateDeckModal() {
     update({
-      type: [reducerActionsKinds.isClosed, reducerActionsKinds.modalHtml],
-      isClosed: false,
-      modalHtml: <div className="flex justify-center items-center flex-col">
-        <label className="text-start self-start px-3" htmlFor="name">name: </label>
-        <input id="name" placeholder="eg. first deck" name="name" className="border-2 border-app_red-dark rounded-sm bg-app_blue outline-none px-4 py-2 w-[95%]" />
-      </div>
+      type: [reducerActionsKinds.isOpen, reducerActionsKinds.modalHtml],
+      isOpen: true,
+      modalHtml: <CreateDeckFormElements />
     })
   }
 
-  // function updateDecksState(newState: Deck[]) {
-  //   update({ type: [reducerActionsKinds.decks], decks: decks })
-  // }
+  function openCreateCardModal() {
+    update({ type: [reducerActionsKinds.isOpen, reducerActionsKinds.modalHtml], isOpen: true, modalHtml: <CreateCardFormElements /> })
+  }
+
+  function updateDecksState(data: ActionResult) {
+    update({ type: [reducerActionsKinds.decks], decks: [(data.successValue as Deck[])[0], ...current.decks] })
+  }
 
   function setCurrentDeck(currentDeckVale: string) {
     update({ type: [reducerActionsKinds.currentDeck], currentDeck: currentDeckVale })
   }
 
-  function setIsClosed(value: boolean) {
-    update({ type: [reducerActionsKinds.isClosed], isClosed: value })
+  function setIsOpen(value: boolean) {
+    update({ type: [reducerActionsKinds.isOpen], isOpen: value })
   }
 
   return (
     <div className="h-screen w-screen">
-      <div className="w-full z-4 my-8 relative mx-auto text-center flex justify-center items-center">
-        <button onClick={openCreateDeckModal} className={buttonClasses}>Create New Deck</button>
+
+      {/* create new deck button */}
+      <div className={`w-full z-4 my-8 mx-auto text-center flex justify-center items-center relative text-semibold
+                      ${current.decks.length === 0 ? 'h-screen ' : ''}`}>
+        <button className={`${buttonClasses} ${current.decks.length === 0 ? 'absolute top-[40%] left-1/2 -translate-y-1/2 -translate-x-1/2' : ''}`} onClick={openCreateDeckModal}>Create New Deck</button>
       </div>
-      <DecksSlider decks={decks} setCurrentDeck={setCurrentDeck as Dispatch<SetStateAction<string>>}></DecksSlider>
-      <PhoneModal isClosed={current.isClosed} setIsClosed={setIsClosed as Dispatch<SetStateAction<boolean>>}>
-        <FormForModals buttonText="create" action={createDeckAction} isOpen={!current.isClosed}>
+
+      {/* deck slieder */}
+      {current.decks.length > 0 && <DecksSlider decks={current.decks} setCurrentDeck={setCurrentDeck as Dispatch<SetStateAction<string>>}></DecksSlider>}
+
+      {/* modal */}
+      <PhoneModal isOpen={current.isOpen} setIsOpen={setIsOpen as Dispatch<SetStateAction<boolean>>}>
+        <FormForModals buttonText="create" action={createDeckAction} onSuccess={updateDecksState}>
           {current.modalHtml}
         </FormForModals>
       </PhoneModal>
+
+
+      <div className="w-screen flex justify-center text-center flex-col
+                      items-center border-t-app_yellow border-1
+                      bg-transparent border-x-0 border-b-0 mt-5 font-semibold text-changer">
+        <button onClick={openCreateCardModal} className="w-[80%] border-app_yellow bg-transparent-orange py-2.5 px-1
+                            rounded-lg border-2 text-3xl flex items-center justify-center
+                            my-5 text-app_red-dark h-[60px] overflow-hidden relative bg-transperint-orange">
+          {/* the spin animation lives here */}
+          <div className="roles-slider">
+            <span className="role">+</span>
+            <span className="role">Create A Card</span>
+            <span className="role">Add Words</span>
+            <span className="role">+</span>
+          </div>
+        </button>
+      </div>
+
     </div>
   )
 }

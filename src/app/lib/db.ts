@@ -3,7 +3,7 @@
 import postgres from "postgres"
 import { Deck, Card } from "./types";
 
-const sql = postgres(process.env.DATABASE_URL!, { ssl: false })
+const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' })
 
 async function getUsers() {
   const users = await sql`

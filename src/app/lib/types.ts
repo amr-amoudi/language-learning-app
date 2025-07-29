@@ -22,7 +22,7 @@ export type Card = {
 }
 
 export type ActionResult = {
-  message?: string;
+  succeeded?: boolean;
   errors?: Record<string, string[]>;
   successValue?: unknown;
 };

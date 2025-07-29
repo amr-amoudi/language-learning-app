@@ -7,6 +7,12 @@
   --color-app_red-light: #9e2a2b;
   --color-app_red-dark: #540b0e;
   --color-transperint-white: rgba(255, 255, 255, 0.6);
+  --color-transperint-yellow: rgba(255, 243, 176, 0.9);
+  --color-transperint-orange: rgb(224, 159, 62, 0.86);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .side-shadow-right {
@@ -40,3 +46,37 @@
   animation: slide-in-from-left 0.4s ease-out;
 }
 
+.roles-slider {
+  display: flex;
+  flex-direction: column;
+  animation: slide-roles 15s infinite cubic-bezier(1, 0, 0, 1);
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.role {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+@keyframes slide-roles {
+  0% {
+    transform: translateY(87px);
+  }
+
+  33.33% {
+    transform: translateY(30px);
+  }
+
+  66.66% {
+    transform: translateY(-30px);
+  }
+
+  100% {
+    transform: translateY(87px);
+  }
+}
