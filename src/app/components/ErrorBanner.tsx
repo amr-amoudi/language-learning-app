@@ -15,7 +15,7 @@ export default function ErrorBanner({ children, dellay = 2000 }: ErrorBannerProp
     setDisplay(true);
     const timeout = setTimeout(() => setDisplay(false), dellay);
     return () => clearTimeout(timeout);
-  }, [children])
+  }, [children, dellay])
 
   if (!display) return null
 
