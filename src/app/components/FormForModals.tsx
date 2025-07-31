@@ -2,10 +2,9 @@
 
 import { ReactNode, useActionState, useContext, useEffect } from "react";
 import { buttonClasses } from "../lib/reuse-classes";
-import ErrorBanner from "./ErrorBanner";
-import returnErrorMessages from "../util/return-error-messages";
 import type { ActionResult } from "../lib/types";
 import { ModalContext } from "./PhoneModal";
+import useDisplayError from "../hooks/useDisplayError";
 
 
 interface FormForModalsProps {
@@ -13,18 +12,19 @@ interface FormForModalsProps {
   action: (prev: unknown, FormData: FormData) => Promise<ActionResult>;
   buttonText: string;
   onSuccess?: (data: ActionResult) => void;
+  disableButton?: boolean
 }
 
-export default function FormForModals({ children, action, buttonText, onSuccess }: FormForModalsProps) {
-  const { isOpen, setIsOpen } = useContext(ModalContext)
+export default function FormForModals({ children, action, buttonText, onSuccess, disableButton }: FormForModalsProps) {
+  const { setIsOpen } = useContext(ModalContext)
+  const [errorElements, setErrorMessages] = useDisplayError([''], 2000)
 
   const initialState: ActionResult = {
     succeeded: false,
-    errors: {},
+    errors: [],
     successValue: undefined,
   };
   const [state, formAction, isPending] = useActionState(action, initialState);
-
 
   useEffect(() => {
     if (state.succeeded) {
@@ -33,21 +33,22 @@ export default function FormForModals({ children, action, buttonText, onSuccess 
         onSuccess(state);
       }
     }
-  }, [state])
+
+    if (!state.succeeded && state.errors && state.errors[0]) {
+      setErrorMessages(state.errors)
+    }
+  }, [state, onSuccess]);
 
   return (
     <form className="pb-[10%]" action={formAction}>
 
-      {!state?.succeeded &&
-        state?.errors &&
-        isOpen &&
-        returnErrorMessages({ errors: state.errors }).map((message: string) => <ErrorBanner key={message + Date.now()}>{message}</ErrorBanner>)}
+      {...errorElements}
 
       {children}
 
       <button
         type="submit"
-        disabled={isPending}
+        disabled={isPending || disableButton}
         className={`${buttonClasses} ${isPending ? 'cursor-not-allowed' : ''} m-auto mt-5`}
       >
         {buttonText}

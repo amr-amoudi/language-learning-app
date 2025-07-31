@@ -35,6 +35,7 @@
 @keyframes slide-in-from-left {
   from {
     transform: translateX(-100px);
+    display: none;
   }
 
   to {
@@ -42,8 +43,23 @@
   }
 }
 
+@keyframes slide-out-from-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-1000px);
+    display: none;
+  }
+}
+
 .animate-slide-in {
   animation: slide-in-from-left 0.4s ease-out;
+}
+
+.animate-slide-out {
+  animation: slide-out-from-left 0.4s ease-out;
 }
 
 .roles-slider {

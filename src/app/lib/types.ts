@@ -22,8 +22,8 @@ export type Card = {
 }
 
 export type ActionResult = {
-  succeeded?: boolean;
-  errors?: Record<string, string[]>;
+  succeeded: boolean;
+  errors: string[] | null;
   successValue?: unknown;
 };
 
