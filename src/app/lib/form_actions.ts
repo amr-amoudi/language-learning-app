@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { createNewDeck } from './db';
+import {createNewCard, createNewDeck} from './db';
 import { ActionResult } from './types';
 import returnErrorMessages from '../util/return-error-messages';
 
@@ -48,7 +48,7 @@ export async function createDeckAction(prevState: unknown, formData: FormData): 
   }
 }
 
-export async function createNewCard(prevState: unknown, formData: FormData): Promise<ActionResult> {
+export async function createNewCardAction(prevState: unknown, formData: FormData, deckId: string): Promise<ActionResult> {
   const validatedFields = CreateCardSchema.safeParse({
     word: formData.get('word'),
     meaning: formData.get('meaning'),
@@ -62,6 +62,16 @@ export async function createNewCard(prevState: unknown, formData: FormData): Pro
     }
   }
 
-  return { successValue: '', errors: [], succeeded: false }
+  try {
+    const result = await createNewCard({ userId: 'c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', deckId, ...validatedFields.data }) // validatedFields.data is guaranteed to have word, meaning, and description could be null
+    return {
+        successValue: result,
+        errors: [],
+        succeeded: true
+    }
+  } catch (e) {
+    console.log(e)
+    return returnServerErrors()
+  }
 }
 

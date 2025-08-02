@@ -6,9 +6,12 @@
   --color-app_orange: #e09f3e;
   --color-app_red-light: #9e2a2b;
   --color-app_red-dark: #540b0e;
-  --color-transperint-white: rgba(255, 255, 255, 0.6);
-  --color-transperint-yellow: rgba(255, 243, 176, 0.9);
-  --color-transperint-orange: rgb(224, 159, 62, 0.86);
+  --color-transparent-white: rgba(255, 255, 255, 0.6);
+  --color-transparent-yellow: rgba(255, 243, 176, 0.9);
+  --color-transparent-orange: rgb(224, 159, 62, 0.86);
+  --color-transparent-blue: rgba(51, 92, 103, 0.8);
+  --color-transparent-light-red: rgba(158, 42, 43, 0.8);
+  --color-transparent-red-dark: rgba(84, 11, 14, 0.8);
 }
 
 * {

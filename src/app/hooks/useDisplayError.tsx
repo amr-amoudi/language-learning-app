@@ -25,7 +25,7 @@ export default function useDisplayError(messages: string[], timeDellay: number):
   const element = displayErrors.messages.map((message: string, index: number) => {
     if (message && displayErrors.display) {
       const spaceBetweenErrors = index === 0 ? 20 : index * 80 + 20;
-      return <ErrorBanner spacing={spaceBetweenErrors} dellay={timeDellay} rerunder={displayErrors.display}>{message}</ErrorBanner>
+      return <ErrorBanner key={index} spacing={spaceBetweenErrors} dellay={timeDellay} rerunder={displayErrors.display}>{message}</ErrorBanner>
     } else {
       return <></>
     }

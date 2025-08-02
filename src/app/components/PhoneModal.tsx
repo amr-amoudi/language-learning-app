@@ -7,7 +7,10 @@ interface PhoneModalProps {
   children?: ReactNode;
   showContentBorder?: boolean;
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  // needed to close the modal because the state is from the parent component
+  closeStateFun: Dispatch<SetStateAction<boolean>>;
+  className?: string;
+  height?: string;
 }
 
 export interface ModalContextType {
@@ -17,7 +20,7 @@ export interface ModalContextType {
 
 export const ModalContext = createContext<ModalContextType>({ isOpen: false, setIsOpen: () => { } })
 
-export default function PhoneModal({ children, showContentBorder = false, isOpen, setIsOpen }: PhoneModalProps) {
+export default function PhoneModal({ children, showContentBorder = false, isOpen, closeStateFun, className, height }: PhoneModalProps) {
   const [isVisible, setIsVisible] = useState<boolean>(isOpen);
   const [shouldRender, setShouldRender] = useState<boolean>(isOpen); // Controls mounting/unmounting for animation
 
@@ -31,7 +34,7 @@ export default function PhoneModal({ children, showContentBorder = false, isOpen
     } else {
       setIsVisible(false); // Start the exit animation
       const timer = setTimeout(() => {
-        setShouldRender(false); // Unmount after the exit animation completes
+        setShouldRender(false); // Unmount after the exit animation completing
       }, 300); // This duration should match CSS transition-duration
       return () => clearTimeout(timer);
     }
@@ -55,9 +58,10 @@ export default function PhoneModal({ children, showContentBorder = false, isOpen
   }
 
   return createPortal(
-    <ModalContext.Provider value={{ isOpen: isOpen, setIsOpen: setIsOpen }}>
+    <ModalContext.Provider value={{ isOpen: isOpen, setIsOpen: closeStateFun }}>
+      {/* the gray background */}
       <div
-        onClick={() => setIsOpen(false)} // Set isClosed to true to trigger closing sequence
+        onClick={() => closeStateFun(false)} // Set isClosed to true to trigger a closing sequence
         className={`
         md:hidden
         fixed left-0 top-0 w-screen h-screen z-[999]
@@ -66,26 +70,29 @@ export default function PhoneModal({ children, showContentBorder = false, isOpen
         ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}
       `}
       >
+        {/* the container everything gose inside */}
         <div
           onClick={(e) => e.stopPropagation()}
           className={`
-          bg-app_yellow fixed z-[1000] bottom-0 w-screen h-[60%] rounded-t-2xl
+          bg-app_yellow fixed z-[1000] bottom-0 w-screen ${height || 'h-[60%]'} rounded-t-2xl
           transition-transform duration-300 ease-in-out
           ${isVisible ? 'translate-y-0' : 'translate-y-full'}
         `}
         >
+          {/* the X button */}
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={() => closeStateFun(false)}
             className="absolute right-0 top-0 text-3xl px-4 cursor-pointer"
           >
             &#120;
           </button>
 
+          {/* the content container all content goes here */}
           <div
             className={`
             w-full h-full mt-8 overflow-y-scroll
             ${showContentBorder ? 'border-2 border-blue-600' : ''}
-          `}
+          ` + className}
           >
             {children}
           </div>

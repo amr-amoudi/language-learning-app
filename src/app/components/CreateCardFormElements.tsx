@@ -1,13 +1,12 @@
 'use client'
 
 import useInputChange from "../hooks/useInputChange"
-import { createDeckAction } from "../lib/form_actions"
+import { createNewCardAction} from "../lib/form_actions"
 import { inputClasses, labelClasses } from "../lib/reuse-classes"
 import FormForModals from "./FormForModals"
 import useDisplayError from "../hooks/useDisplayError"
 
-
-export default function CreateCardFormElements() {
+export default function CreateCardFormElements({ deckId }: { deckId: string }) {
   const [errorElement, setErrorMessage] = useDisplayError([''], 2000)
 
   const [inputValues, handleUpdate] = useInputChange({
@@ -31,7 +30,7 @@ export default function CreateCardFormElements() {
   })
 
   return (
-    <FormForModals buttonText={'create'} action={createDeckAction}>
+    <FormForModals buttonText={'create'} action={(prev, fromData) => createNewCardAction(prev, fromData, deckId)}>
 
       {...errorElement}
 

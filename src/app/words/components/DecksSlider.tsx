@@ -6,15 +6,17 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Keyboard } from 'swiper/modules';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function DecksSlider({ decks, setCurrentDeck }: { decks: Deck[], setCurrentDeck: Dispatch<SetStateAction<string>> }) {
+export default function DecksSlider({ decks }: { decks: Deck[] }) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const router = useRouter()
 
-  // the requist of the words is delayed to wait for the users selection
+  // the request of the words is delayed to wait for the user's selection
   useEffect(() => {
     if (currentIndex !== undefined) {
       const timeOut = setTimeout(() => {
-        setCurrentDeck(decks[currentIndex].id)
+        router.push(`/words/${decks[currentIndex].id}`)
       }, 650)
 
       return () => clearTimeout(timeOut)
