@@ -56,8 +56,8 @@ async function createWord(word: string): Promise<Word[]> {
           SELECT * FROM words WHERE word = ${word};`;
 }
 
-async function getCardsForCurrentDeck(deck_id: string): Promise<ReturnedCard[]> {
-  return sql<ReturnedCard[]>`
+async function getCardsForCurrentDeck(deck_id: string): Promise<Card[]> {
+  return sql<Card[]>`
           SELECT
             c.id AS card_id,
             word.word AS word,
@@ -75,7 +75,7 @@ async function getCardsForCurrentDeck(deck_id: string): Promise<ReturnedCard[]> 
             WHERE dc.deck_id = ${deck_id};`
 }
 
-async function createNewCard({ userId, word, meaning, description, deckId }: CreateNewCard) {
+async function createNewCard({ userId, word, meaning, description, deckId }: CreateNewCard): Promise<ReturnedCard> {
     try {
         const createdWord = await createWord(word);
         const createdMeaning = await createWord(meaning);
@@ -95,24 +95,21 @@ async function createNewCard({ userId, word, meaning, description, deckId }: Cre
 
         await sql`
           INSERT INTO deck_cards (deck_id, card_id)
-          VALUES (${deckId}, ${newCard[0].id});
+          VALUES (${deckId}, ${newCard[0].card_id});
         `;
 
-        console.log(createdWord, createdMeaning, newCard)
-
-        return newCard[0];
+        return { id: newCard[0].card_id, word: createdWord[0].word, meaning: createdMeaning[0].word, description: newCard[0].description };
     } catch (err) {
         throw err;
     }
 }
 
-async function setActiveDeck(deckId: string, userId: string): Promise<void> {
+async function setActiveDeck(deckId: string, userId: string) {
     try {
-        sql`
+        return sql`
         UPDATE decks
         SET is_active = false
-        WHERE id != ${deckId} AND user_id = ${userId};
-      `;
+        WHERE id != ${deckId} AND user_id = ${userId};`;
     } catch (err) {
         throw err;
     }

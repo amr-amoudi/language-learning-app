@@ -5,9 +5,13 @@ import { createNewCardAction} from "../lib/form_actions"
 import { inputClasses, labelClasses } from "../lib/reuse-classes"
 import FormForModals from "./FormForModals"
 import useDisplayError from "../hooks/useDisplayError"
+import { CardSectionContext } from "@/app/words/components/CardSection";
+import React from "react";
+import {ActionResult, Card} from "@/app/lib/types";
 
 export default function CreateCardFormElements({ deckId }: { deckId: string }) {
   const [errorElement, setErrorMessage] = useDisplayError([''], 2000)
+  const { setCards } = React.useContext(CardSectionContext)
 
   const [inputValues, handleUpdate] = useInputChange({
     word: '',
@@ -29,8 +33,13 @@ export default function CreateCardFormElements({ deckId }: { deckId: string }) {
     return true;
   })
 
+  function onSuccessAction(data: ActionResult) {
+    const successValue = data.successValue as Card;
+    setCards(prevState => [successValue, ...prevState]);
+  }
+
   return (
-    <FormForModals buttonText={'create'} action={(prev, fromData) => createNewCardAction(prev, fromData, deckId)}>
+    <FormForModals onSuccess={onSuccessAction} buttonText={'create'} action={(prev, fromData) => createNewCardAction(prev, fromData, deckId)}>
 
       {...errorElement}
 

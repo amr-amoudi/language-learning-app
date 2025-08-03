@@ -5,12 +5,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Keyboard } from 'swiper/modules';
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import {usePathname, useRouter} from "next/navigation";
 
 export default function DecksSlider({ decks }: { decks: Deck[] }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const router = useRouter()
+  const pathname = usePathname().split("/")
+
+  if(!pathname[2]) {
+    router.push(`/words/${decks[0].id}`)
+  }
 
   // the request of the words is delayed to wait for the user's selection
   useEffect(() => {
@@ -21,7 +26,7 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
 
       return () => clearTimeout(timeOut)
     }
-  }, [decks, currentIndex])
+  }, [decks, currentIndex, router])
 
   return (
     <div className="relative w-full max-w-screen overflow-hidden">

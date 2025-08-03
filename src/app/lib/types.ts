@@ -12,11 +12,19 @@ export type Deck = {
 }
 
 export type Card = {
-  id: string,
-  word_id: string,
-  meaning_id: string,
+  card_id: string,
+  word: string,
+  meaning: string,
   description: string,
   user_id: string,
+}
+
+export type CardFromDB = {
+    card_id: string,
+    word_id: string,
+    meaning_id: string,
+    description: string,
+    user_id: string,
 }
 
 export type Word = {

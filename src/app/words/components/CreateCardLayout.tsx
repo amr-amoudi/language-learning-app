@@ -40,7 +40,7 @@ export default function CreateCardLayout(){
                     </div>
                 </button>
             </div>
-            <PhoneModal isOpen={current.isOpen} closeStateFun={closeModal as Dispatch<SetStateAction<boolean>>}>
+            <PhoneModal isOpen={current.isOpen} closeModalState={closeModal as Dispatch<SetStateAction<boolean>>}>
                 {current.modalHtml}
             </PhoneModal>
         </>

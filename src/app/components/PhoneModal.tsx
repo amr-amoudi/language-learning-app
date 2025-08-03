@@ -4,11 +4,11 @@ import { Dispatch, ReactNode, SetStateAction, useEffect, useState, createContext
 import { createPortal } from "react-dom"
 
 interface PhoneModalProps {
-  children?: ReactNode;
+  children: ReactNode;
   showContentBorder?: boolean;
   isOpen: boolean;
   // needed to close the modal because the state is from the parent component
-  closeStateFun: Dispatch<SetStateAction<boolean>>;
+  closeModalState: Dispatch<SetStateAction<boolean>>;
   className?: string;
   height?: string;
 }
@@ -20,7 +20,7 @@ export interface ModalContextType {
 
 export const ModalContext = createContext<ModalContextType>({ isOpen: false, setIsOpen: () => { } })
 
-export default function PhoneModal({ children, showContentBorder = false, isOpen, closeStateFun, className, height }: PhoneModalProps) {
+export default function PhoneModal({ children, showContentBorder = false, isOpen, closeModalState, className, height }: PhoneModalProps) {
   const [isVisible, setIsVisible] = useState<boolean>(isOpen);
   const [shouldRender, setShouldRender] = useState<boolean>(isOpen); // Controls mounting/unmounting for animation
 
@@ -58,10 +58,10 @@ export default function PhoneModal({ children, showContentBorder = false, isOpen
   }
 
   return createPortal(
-    <ModalContext.Provider value={{ isOpen: isOpen, setIsOpen: closeStateFun }}>
+    <ModalContext.Provider value={{ isOpen: isOpen, setIsOpen: closeModalState }}>
       {/* the gray background */}
       <div
-        onClick={() => closeStateFun(false)} // Set isClosed to true to trigger a closing sequence
+        onClick={() => closeModalState(false)} // Set isClosed to true to trigger a closing sequence
         className={`
         md:hidden
         fixed left-0 top-0 w-screen h-screen z-[999]
@@ -81,7 +81,7 @@ export default function PhoneModal({ children, showContentBorder = false, isOpen
         >
           {/* the X button */}
           <button
-            onClick={() => closeStateFun(false)}
+            onClick={() => closeModalState(false)}
             className="absolute right-0 top-0 text-3xl px-4 cursor-pointer"
           >
             &#120;

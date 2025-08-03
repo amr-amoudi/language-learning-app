@@ -16,7 +16,7 @@ interface FormForModalsProps {
 }
 
 export default function FormForModals({ children, action, buttonText, onSuccess, disableButton }: FormForModalsProps) {
-  const { setIsOpen } = useContext(ModalContext)
+  const { isOpen, setIsOpen } = useContext(ModalContext)
   const [errorElements, setErrorMessages] = useDisplayError([''], 2000)
 
   const initialState: ActionResult = {
@@ -27,7 +27,7 @@ export default function FormForModals({ children, action, buttonText, onSuccess,
   const [state, formAction, isPending] = useActionState(action, initialState);
 
   useEffect(() => {
-    if (state.succeeded) {
+    if (state.succeeded && isOpen) {
       setIsOpen(false)
       if (onSuccess) {
         onSuccess(state);
@@ -37,7 +37,7 @@ export default function FormForModals({ children, action, buttonText, onSuccess,
     if (!state.succeeded && state.errors && state.errors[0]) {
       setErrorMessages(state.errors)
     }
-  }, [state, onSuccess]);
+  }, [state, onSuccess, setIsOpen, setErrorMessages, isOpen]);
 
   return (
     <form className="pb-[10%]" action={formAction}>
@@ -48,7 +48,7 @@ export default function FormForModals({ children, action, buttonText, onSuccess,
 
       <button
         type="submit"
-        disabled={isPending || disableButton}
+        disabled={disableButton || isPending}
         className={`${buttonClasses} ${isPending ? 'cursor-not-allowed' : ''} m-auto mt-5`}
       >
         {buttonText}

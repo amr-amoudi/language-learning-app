@@ -1,3 +1,4 @@
+// server component
 import DecksContent from "@/app/words/components/DecksContent";
 import {getDecksForUser} from "@/app/lib/db";
 import Link from "next/link";

@@ -41,7 +41,7 @@ export default function CardComponent({ id, description, children }: CardCompone
                 { description && showInfoButton && <button onClick={() => setIsOpen(true)} className={`absolute top-1 left-1 border-2 
                 border-app_red-light rounded-full w-[25px] h-[25px] flex items-center justify-center text-xl text-app_yellow bg-transparent-orange
                 `}>i</button> }
-                { description && showInfoButton && <PhoneModal height={'h-[40%]'} isOpen={isOpen} closeStateFun={setIsOpen}>
+                { description && showInfoButton && <PhoneModal height={'h-[40%]'} isOpen={isOpen} closeModalState={setIsOpen}>
                     <p className={'text-xl py-5 ml-5'}>
                         {description}
                     </p>

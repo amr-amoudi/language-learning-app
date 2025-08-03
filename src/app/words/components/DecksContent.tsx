@@ -6,8 +6,6 @@ import {ActionResult, Deck} from "@/app/lib/types";
 import React, {Dispatch, SetStateAction} from "react";
 import PhoneModal from "@/app/components/PhoneModal";
 import CreateDeckFormElements from "@/app/components/CreateDeckFormElements";
-import CreateCardLayout from "@/app/words/components/CreateCardLayout";
-
 
 export default function DecksContent({ decks }: { decks: Deck[] }) {
     const [current,setCurrent] = React.useState({
@@ -45,11 +43,9 @@ export default function DecksContent({ decks }: { decks: Deck[] }) {
             {/* deck slider */}
             {current.decks.length > 0 && <DecksSlider decks={current.decks}></DecksSlider>}
 
-            <PhoneModal height={'h-[40%]'} isOpen={current.isOpen} closeStateFun={closeModal as Dispatch<SetStateAction<boolean>>}>
+            <PhoneModal height={'h-[40%]'} isOpen={current.isOpen} closeModalState={closeModal as Dispatch<SetStateAction<boolean>>}>
                 {current.modalHtml}
             </PhoneModal>
-
-            <CreateCardLayout/>
         </>
     )
 }
