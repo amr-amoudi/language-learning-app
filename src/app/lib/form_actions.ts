@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import {createNewCard, createNewDeck} from './db';
+import {createNewCard, createNewDeck, deleteCard} from './db';
 import { ActionResult } from './types';
 import returnErrorMessages from '../util/return-error-messages';
 
@@ -10,8 +10,8 @@ const CreateDeckSchema = z.object({
 })
 
 const CreateCardSchema = z.object({
-  word: z.string({ error: "word is required" }),
-  meaning: z.string({ error: "meaning is required" }),
+  word: z.string({ error: "word must be text" }).min(1, "word is required"),
+  meaning: z.string({ error: "meaning must be text" }).min(1, "meaning is required"),
   description: z.string().optional()
 })
 
@@ -46,6 +46,23 @@ export async function createDeckAction(prevState: unknown, formData: FormData): 
     console.log(e);
     return returnServerErrors();
   }
+}
+
+export async function deleteCardFromAction(_: unknown, __: FormData, cardId: string): Promise<ActionResult> {
+
+    try {
+        console.log('im on the server')
+        await deleteCard(cardId)
+
+        return {
+            succeeded: true,
+            successValue: { cardId },
+            errors: null
+        };
+    } catch (e) {
+        console.log(e);
+        return returnServerErrors();
+    }
 }
 
 export async function createNewCardAction(prevState: unknown, formData: FormData, deckId: string): Promise<ActionResult> {

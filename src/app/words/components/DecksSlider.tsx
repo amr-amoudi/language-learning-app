@@ -22,7 +22,7 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
     if (currentIndex !== undefined) {
       const timeOut = setTimeout(() => {
         router.push(`/words/${decks[currentIndex].id}`)
-      }, 650)
+      }, 300)
 
       return () => clearTimeout(timeOut)
     }

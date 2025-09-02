@@ -5,7 +5,7 @@ import {Card, CreateNewCard, Deck, ReturnedCard, Word} from "./types";
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' })
 
-async function getUsers() {
+export async function getUsers() {
   const users = await sql`
     SELECT * FROM users;
   `;
@@ -13,7 +13,7 @@ async function getUsers() {
   return users;
 }
 
-async function getDecksForUser(userId: string): Promise<Deck[]> {
+export async function getDecksForUser(userId: string): Promise<Deck[]> {
   return sql<Deck[]>`
     SELECT *
     FROM decks
@@ -23,7 +23,7 @@ async function getDecksForUser(userId: string): Promise<Deck[]> {
 }
 
 
-async function createNewDeck(userId: string, name: string) {
+export async function createNewDeck(userId: string, name: string) {
   try {
     await sql`
       UPDATE decks
@@ -43,7 +43,7 @@ async function createNewDeck(userId: string, name: string) {
   }
 }
 
-async function createWord(word: string): Promise<Word[]> {
+export async function createWord(word: string): Promise<Word[]> {
   return sql<Word[]>`
           WITH ins AS (
             INSERT INTO words (word)
@@ -56,7 +56,7 @@ async function createWord(word: string): Promise<Word[]> {
           SELECT * FROM words WHERE word = ${word};`;
 }
 
-async function getCardsForCurrentDeck(deck_id: string): Promise<Card[]> {
+export async function getCardsForCurrentDeck(deck_id: string): Promise<Card[]> {
   return sql<Card[]>`
           SELECT
             c.id AS card_id,
@@ -72,10 +72,11 @@ async function getCardsForCurrentDeck(deck_id: string): Promise<Card[]> {
             words word ON c.word_id = word.id
               JOIN
             words meaning ON c.meaning_id = meaning.id
-            WHERE dc.deck_id = ${deck_id};`
+            WHERE dc.deck_id = ${deck_id}
+            ORDER BY c.created_at DESC;`
 }
 
-async function createNewCard({ userId, word, meaning, description, deckId }: CreateNewCard): Promise<ReturnedCard> {
+export async function createNewCard({ userId, word, meaning, description, deckId }: CreateNewCard): Promise<Card> {
     try {
         const createdWord = await createWord(word);
         const createdMeaning = await createWord(meaning);
@@ -87,7 +88,7 @@ async function createNewCard({ userId, word, meaning, description, deckId }: Cre
         const newCard = await sql<Card[]>`
           INSERT INTO cards (word_id, meaning_id, description, user_id)
           VALUES (${createdWord[0].id}, ${createdMeaning[0].id}, ${description || null}, ${userId})
-          RETURNING *;`
+          RETURNING id as card_id, *;`
 
         if (newCard.length === 0) {
           throw new Error('Failed to create card');
@@ -98,13 +99,13 @@ async function createNewCard({ userId, word, meaning, description, deckId }: Cre
           VALUES (${deckId}, ${newCard[0].card_id});
         `;
 
-        return { id: newCard[0].card_id, word: createdWord[0].word, meaning: createdMeaning[0].word, description: newCard[0].description };
+        return { card_id: newCard[0].card_id, word: createdWord[0].word, meaning: createdMeaning[0].word, description: newCard[0].description, user_id: newCard[0].user_id };
     } catch (err) {
         throw err;
     }
 }
 
-async function setActiveDeck(deckId: string, userId: string) {
+export async function setActiveDeck(deckId: string, userId: string) {
     try {
         return sql`
         UPDATE decks
@@ -115,11 +116,8 @@ async function setActiveDeck(deckId: string, userId: string) {
     }
 }
 
-export {
-    getUsers,
-    getDecksForUser,
-    createNewDeck,
-    createNewCard,
-    getCardsForCurrentDeck,
-    setActiveDeck
+export async function deleteCard(cardId: string) {
+        return sql`
+        DELETE FROM cards
+        WHERE id = ${cardId};`;
 }

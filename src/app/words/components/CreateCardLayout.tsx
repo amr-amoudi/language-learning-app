@@ -25,8 +25,7 @@ export default function CreateCardLayout(){
 
     return (
         <>
-            <div className="w-screen flex justify-center text-center flex-col
-                          items-center border-t-app_yellow border-1
+            <div className="w-screen flex justify-center text-center flex-col items-center
                           bg-transparent border-x-0 border-b-0 mt-5 font-semibold text-changer">
                 <button onClick={openModal} className="w-[80%] border-app_yellow bg-transparent-orange py-2.5 px-1
                                 rounded-lg border-2 text-3xl flex items-center justify-center

@@ -1,9 +1,12 @@
 // server component
 import { getCardsForCurrentDeck, setActiveDeck } from "@/app/lib/db";
 import { Card } from "@/app/lib/types";
-import CreateCardLayout from "@/app/words/components/CreateCardLayout";
-import CardSection from "@/app/words/components/CardSection";
-import Cards from "@/app/words/components/Cards";
+
+import {Suspense} from "react";
+import CardsHolder from "@/app/words/[cards_from_deck_id]/CardsHolder";
+import CardsSkeleton from "@/app/words/[cards_from_deck_id]/CardsSkeleton";
+import BoxSkeleton from "@/app/components/Skeletons/BoxSkeleton";
+import CardSection from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
 
 export default async function CardsFromDeckId({ params }: { params: Promise<{ cards_from_deck_id: string }> }) {
     const { cards_from_deck_id } = await params;
@@ -16,9 +19,8 @@ export default async function CardsFromDeckId({ params }: { params: Promise<{ ca
     }
 
     return (
-        <CardSection cards={cards} >
-            <CreateCardLayout />
-            <Cards />
-        </CardSection>
+        <Suspense fallback={<CardsSkeleton/>}>
+            <CardsHolder id={cards_from_deck_id}/>
+        </Suspense>
     );
 }

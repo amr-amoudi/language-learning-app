@@ -1,10 +1,10 @@
 "use client";
 
-import CardComponent from "@/app/words/components/CardComponent";
-import CardFace from "@/app/words/components/CardFace";
-import CardBack from "@/app/words/components/CardBack";
+import CardComponent from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardComponent";
+import CardFace from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardFace";
+import CardBack from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardBack";
 import {useContext} from "react";
-import {CardSectionContext} from "@/app/words/components/CardSection";
+import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
 
 export default function Cards(){
     const cards = useContext(CardSectionContext).cards;
@@ -17,7 +17,7 @@ export default function Cards(){
         <div>
             {cards.map((card) => {
                 return (
-                <CardComponent key={card.card_id} id={card.card_id} description={card.description}>
+                <CardComponent key={card.card_id + Date()} id={card.card_id} description={card.description}>
                     <CardFace key={card.word + card.card_id}>
                         {card.word}
                     </CardFace>
