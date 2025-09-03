@@ -10,12 +10,10 @@ import useDisplayError from "../hooks/useDisplayError";
 interface AddFromModalsProps {
     children: ReactNode;
     action: (prev: unknown, FormData: FormData) => Promise<ActionResult>;
-    buttonText: string;
     onSuccess?: (data: ActionResult) => void;
-    disableButton?: boolean
 }
 
-export default function AddFormModals({ children, action, buttonText, onSuccess, disableButton }: AddFromModalsProps) {
+export default function CreateForm({ children, action, onSuccess }: AddFromModalsProps) {
     const { isOpen, setIsOpen } = useContext(ModalContext)
     const [errorElements, setErrorMessages] = useDisplayError([''], 2000)
 
@@ -24,7 +22,7 @@ export default function AddFormModals({ children, action, buttonText, onSuccess,
         errors: [],
         successValue: undefined,
     };
-    const [state, formAction, isPending] = useActionState(action, initialState);
+    const [state, formAction] = useActionState(action, initialState);
 
     useEffect(() => {
         if (state.succeeded && isOpen) {
@@ -40,19 +38,11 @@ export default function AddFormModals({ children, action, buttonText, onSuccess,
     }, [state]);
 
     return (
-        <form className="pb-[10%]" action={formAction}>
+        <form className="pb-[10%] relitive" action={formAction}>
 
             {...errorElements}
 
             {children}
-
-            <button
-                type="submit"
-                disabled={disableButton || isPending}
-                className={`${buttonClasses} ${isPending ? 'cursor-not-allowed' : ''} m-auto mt-5`}
-            >
-                {isPending ? 'Creating...' : buttonText}
-            </button>
         </form>
     );
 }

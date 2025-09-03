@@ -7,7 +7,7 @@ interface PhoneModalProps {
   children: ReactNode;
   showContentBorder?: boolean;
   isOpen: boolean;
-  // needed to close the modal because the state is from the parent component
+  // needed to close the modal when X is clicked or background is clicked
   closeModalState: Dispatch<SetStateAction<boolean>>;
   className?: string;
   height?: string;
@@ -70,7 +70,6 @@ export default function PhoneModal({ children, showContentBorder = false, isOpen
         ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}
       `}
       >
-        {/* the container everything gose inside */}
         <div
           onClick={(e) => e.stopPropagation()}
           className={`

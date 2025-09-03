@@ -92,3 +92,30 @@ export async function createNewCardAction(prevState: unknown, formData: FormData
   }
 }
 
+export async function updateCardAction(prevState: unknown, formData: FormData, cardId: string): Promise<ActionResult> {
+    const validatedFields = CreateCardSchema.safeParse({
+        word: formData.get('word'),
+        meaning: formData.get('meaning'),
+        description: formData.get('description')
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: returnErrorMessages({ errors: validatedFields.error.flatten().fieldErrors }),
+            succeeded: false
+        }
+    }
+
+    try {
+        const result = await createNewCard({ userId: 'c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', deckId: 'dummy-deck-id', ...validatedFields.data }) // validatedFields.data is guaranteed to have word, meaning, and description could be null
+        return {
+            successValue: result,
+            errors: [],
+            succeeded: true
+        }
+    } catch (e) {
+        console.log(e)
+        return returnServerErrors()
+    }
+}
+

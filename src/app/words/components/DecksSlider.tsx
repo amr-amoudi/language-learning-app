@@ -6,23 +6,21 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Keyboard } from 'swiper/modules';
 import { useEffect, useState } from "react";
-import {usePathname, useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import DeckName from "@/app/words/components/DeckName";
+import Image from "next/image";
+import pencil from "@/app/assets/pencil.svg";
 
 export default function DecksSlider({ decks }: { decks: Deck[] }) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const router = useRouter()
-  const pathname = usePathname().split("/")
-
-  if(!pathname[2]) {
-    router.push(`/words/${decks[0].id}`)
-  }
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const router = useRouter()
 
   // the request of the words is delayed to wait for the user's selection
   useEffect(() => {
     if (currentIndex !== undefined) {
       const timeOut = setTimeout(() => {
         router.push(`/words/${decks[currentIndex].id}`)
-      }, 300)
+      }, 400)
 
       return () => clearTimeout(timeOut)
     }
@@ -56,19 +54,22 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
 
       <Swiper
         modules={[Navigation, Keyboard]}
-        slidesPerView={3}
         centeredSlides={true}
-        spaceBetween={100}
+        slidesPerView={3}
+        spaceBetween={50}
         keyboard={{ enabled: true }}
         onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
-        className="h-[40px] w-full"
+        className="h-[40px] w-full text-center"
       >
         {decks.map((deck) => (
           <SwiperSlide
-            className="text-app_yellow text-center text-3xl text-shadow-app_orange text-shadow-2xs z-2"
+            className="text-app_yellow text-center text-3xl text-shadow-app_orange text-shadow-2xs z-2  flex flex-col items-center justify-center relative"
             key={deck.id}
           >
-            {deck.name}
+            <DeckName>{deck.name.slice(0,5)}</DeckName>
+              <button className={'absolute top-0 left-[-10px] flex justify-center items-center h-fit'}>
+                  <Image width={15} height={10} className={'rotate-90'} src={pencil} alt="edit"/>
+              </button>
           </SwiperSlide>
         ))}
       </Swiper>

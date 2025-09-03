@@ -108,9 +108,15 @@ export async function createNewCard({ userId, word, meaning, description, deckId
 export async function setActiveDeck(deckId: string, userId: string) {
     try {
         return sql`
-        UPDATE decks
-        SET is_active = false
-        WHERE id != ${deckId} AND user_id = ${userId};`;
+            UPDATE decks
+            SET is_active =
+                    CASE
+                        WHEN id != ${deckId} THEN false
+                        WHEN id = ${deckId} THEN true
+                        END
+            WHERE user_id = ${userId}
+            RETURNING *;
+        `;
     } catch (err) {
         throw err;
     }

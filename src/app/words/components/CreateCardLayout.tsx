@@ -1,26 +1,35 @@
 'use client';
 
 import PhoneModal from "@/app/components/PhoneModal";
-import {Dispatch, SetStateAction, useState} from "react";
-import CreateCardFormElements from "@/app/components/CreateCardFormElements";
-import {usePathname} from "next/navigation";
+import React, {Dispatch, SetStateAction, useContext, useState} from "react";
+import CardForm from "@/app/components/CardForm";
+import {createNewCardAction} from "@/app/lib/form_actions";
+import SubmitButton from "@/app/components/SubmitButton";
+import {buttonClasses} from "@/app/lib/reuse-classes";
+import {ActionResult, Card} from "@/app/lib/types";
+import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
 
 
-export default function CreateCardLayout(){
-    const deckId: string = usePathname().split('/')[2];
+export default function CreateCardLayout({ deckId }: { deckId: string }) {
+    const { setCards } = useContext(CardSectionContext)
+
     const [current, setCurrent] = useState({
         isOpen: false,
-        modalHtml: <CreateCardFormElements deckId={deckId} />
     });
 
     function openModal() {
-        setCurrent(prev => (
-            { ...prev, isOpen: true }
-        ));
+        setCurrent({ isOpen: true });
     }
 
     function closeModal(){
-        setCurrent(prev => ({ ...prev, isOpen: false }));
+        setCurrent({ isOpen: false });
+    }
+
+    function onSuccessAction(data: ActionResult) {
+        if(data.succeeded){
+            const successValue = data.successValue as Card;
+            setCards(prevState => [successValue, ...prevState]);
+        }
     }
 
     return (
@@ -40,7 +49,11 @@ export default function CreateCardLayout(){
                 </button>
             </div>
             <PhoneModal isOpen={current.isOpen} closeModalState={closeModal as Dispatch<SetStateAction<boolean>>}>
-                {current.modalHtml}
+                <CardForm onSuccess={onSuccessAction} action={(_, fromData) => createNewCardAction(_, fromData, deckId)}>
+                    <SubmitButton className={`${buttonClasses} absolute bottom-5 left-1/2 transform -translate-x-1/2`} fallBackText={'Creating...'}>
+                        Create!
+                    </SubmitButton>
+                </CardForm>
             </PhoneModal>
         </>
     )

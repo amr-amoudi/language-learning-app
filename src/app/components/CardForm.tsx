@@ -1,22 +1,31 @@
 'use client'
 
 import useInputChange from "../hooks/useInputChange"
-import { createNewCardAction} from "../lib/form_actions"
-import { inputClasses, labelClasses } from "../lib/reuse-classes"
+import {buttonClasses, inputClasses, labelClasses} from "../lib/reuse-classes"
 import useDisplayError from "../hooks/useDisplayError"
 import React from "react";
 import {ActionResult, Card} from "@/app/lib/types";
 import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
-import AddFormModals from "@/app/components/AddFormModals";
+import CreateForm from "@/app/components/CreateForm";
+import SubmitButton from "@/app/components/SubmitButton";
 
-export default function CreateCardFormElements({ deckId }: { deckId: string }) {
+interface CardFormProps {
+    action: (prev: unknown, FormData: FormData) => Promise<ActionResult>;
+    children: React.ReactNode
+    onSuccess: (data: ActionResult) => void
+    word?: string,
+    meaning?: string,
+    description?: string
+}
+
+
+export default function CardForm({ action, children, onSuccess, word, meaning, description }: CardFormProps) {
     const [errorElement, setErrorMessage] = useDisplayError([''], 2000)
-    const { setCards } = React.useContext(CardSectionContext)
 
     const [inputValues, handleUpdate] = useInputChange({
-        word: '',
-        meaning: '',
-        description: ''
+        word: word || '',
+        meaning: meaning || '',
+        description: description || ''
     }, (e) => {
         const { name, value } = e.target
 
@@ -33,15 +42,8 @@ export default function CreateCardFormElements({ deckId }: { deckId: string }) {
         return true;
     })
 
-    function onSuccessAction(data: ActionResult) {
-        if(data.succeeded){
-            const successValue = data.successValue as Card;
-            setCards(prevState => [successValue, ...prevState]);
-        }
-    }
-
     return (
-        <AddFormModals onSuccess={onSuccessAction} buttonText={'create'} action={(_, fromData) => createNewCardAction(_, fromData, deckId)}>
+        <CreateForm onSuccess={onSuccess} action={action}>
 
             {...errorElement}
 
@@ -62,6 +64,8 @@ export default function CreateCardFormElements({ deckId }: { deckId: string }) {
                 <textarea id='description' onChange={handleUpdate} value={inputValues.description} name="description" placeholder={'describe your word or add any other ways to explain it eg. "formal way of saying hello"'} className={inputClasses + 'placeholder:text-sm w-[95%] p-0 resize-none'}></textarea>
 
             </div>
-        </AddFormModals>
+
+            {children}
+        </CreateForm>
     )
 }
