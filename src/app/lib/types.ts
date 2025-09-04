@@ -32,11 +32,11 @@ export type Word = {
     word: string,
 }
 
-export type ActionResult = {
-  succeeded: boolean;
-  errors: string[] | null;
-  successValue?: unknown;
-};
+export interface ActionResult<T = unknown> {
+    errors: string[] | null;
+    succeeded: boolean;
+    successValue?: T;
+}
 
 export type ReturnedCard = {
     id: string;

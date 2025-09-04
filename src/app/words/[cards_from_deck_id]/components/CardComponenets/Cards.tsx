@@ -7,7 +7,7 @@ import {useContext} from "react";
 import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
 
 export default function Cards(){
-    const cards = useContext(CardSectionContext).cards;
+    const { cards, setCards } = useContext(CardSectionContext);
 
     if(cards.length === 0){
         return <div className="text-app_yellow text-center">there are no Cards, maybe add some🤗</div>
@@ -17,14 +17,14 @@ export default function Cards(){
         <div>
             {cards.map((card) => {
                 return (
-                <CardComponent key={card.card_id + Date()} id={card.card_id} description={card.description}>
-                    <CardFace key={card.word + card.card_id}>
-                        {card.word}
-                    </CardFace>
-                    <CardBack key={card.card_id + card.meaning}>
-                        {card.meaning}
-                    </CardBack>
-                </CardComponent>
+                    <CardComponent key={card.card_id + Date()} cardsContext={{ cards, setCards }} id={card.card_id} description={card.description}>
+                        <CardFace key={card.word + card.card_id}>
+                            {card.word}
+                        </CardFace>
+                        <CardBack key={card.card_id + card.meaning}>
+                            {card.meaning}
+                        </CardBack>
+                    </CardComponent>
             )})}
         </div>
     )

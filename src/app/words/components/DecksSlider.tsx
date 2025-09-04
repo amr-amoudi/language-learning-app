@@ -10,9 +10,14 @@ import { useRouter } from "next/navigation";
 import DeckName from "@/app/words/components/DeckName";
 import Image from "next/image";
 import pencil from "@/app/assets/pencil.svg";
+import PhoneModal from "@/app/components/PhoneModal";
+import OnSuccess from "@/app/components/OnSuccess";
+import UpdateFormModal from "@/app/components/UpdateFormModal";
+import UpdateDeckModal from "@/app/components/UpdateDeckModal";
 
 export default function DecksSlider({ decks }: { decks: Deck[] }) {
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [displayModal, setDisplayModal] = useState<boolean>(false)
     const router = useRouter()
 
   // the request of the words is delayed to wait for the user's selection
@@ -67,12 +72,18 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
             key={deck.id}
           >
             <DeckName>{deck.name.slice(0,5)}</DeckName>
-              <button className={'absolute top-0 left-[-10px] flex justify-center items-center h-fit'}>
+              <button onClick={() => setDisplayModal(true)} className={'absolute top-0 left-[-10px] flex justify-center items-center h-fit'}>
                   <Image width={15} height={10} className={'rotate-90'} src={pencil} alt="edit"/>
               </button>
           </SwiperSlide>
         ))}
       </Swiper>
+
+        <PhoneModal isOpen={displayModal} closeModalState={() => setDisplayModal(false)} >
+            <UpdateDeckModal>
+
+            </UpdateDeckModal>
+        </PhoneModal>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import {createNewCard, createNewDeck, deleteCard} from './db';
+import {createNewCard, createNewDeck, deleteCard, updateCard} from './db';
 import { ActionResult } from './types';
 import returnErrorMessages from '../util/return-error-messages';
 
@@ -13,6 +13,12 @@ const CreateCardSchema = z.object({
   word: z.string({ error: "word must be text" }).min(1, "word is required"),
   meaning: z.string({ error: "meaning must be text" }).min(1, "meaning is required"),
   description: z.string().optional()
+})
+
+const UpdateCardSchema = z.object({
+    word: z.string({ error: "word must be text" }).min(1, "word is required").optional(),
+    meaning: z.string({ error: "meaning must be text" }).min(1, "meaning is required").optional(),
+    description: z.string().optional()
 })
 
 function returnServerErrors(): ActionResult {
@@ -107,7 +113,8 @@ export async function updateCardAction(prevState: unknown, formData: FormData, c
     }
 
     try {
-        const result = await createNewCard({ userId: 'c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', deckId: 'dummy-deck-id', ...validatedFields.data }) // validatedFields.data is guaranteed to have word, meaning, and description could be null
+        const result = await updateCard(cardId, validatedFields.data.word, validatedFields.data.meaning, validatedFields.data.description)
+        console.log(result)
         return {
             successValue: result,
             errors: [],

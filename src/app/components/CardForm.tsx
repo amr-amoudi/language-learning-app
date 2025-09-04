@@ -12,14 +12,13 @@ import SubmitButton from "@/app/components/SubmitButton";
 interface CardFormProps {
     action: (prev: unknown, FormData: FormData) => Promise<ActionResult>;
     children: React.ReactNode
-    onSuccess: (data: ActionResult) => void
     word?: string,
     meaning?: string,
     description?: string
 }
 
 
-export default function CardForm({ action, children, onSuccess, word, meaning, description }: CardFormProps) {
+export default function CardForm({ action, children, word, meaning, description }: CardFormProps) {
     const [errorElement, setErrorMessage] = useDisplayError([''], 2000)
 
     const [inputValues, handleUpdate] = useInputChange({
@@ -43,7 +42,7 @@ export default function CardForm({ action, children, onSuccess, word, meaning, d
     })
 
     return (
-        <CreateForm onSuccess={onSuccess} action={action}>
+        <CreateForm action={action}>
 
             {...errorElement}
 

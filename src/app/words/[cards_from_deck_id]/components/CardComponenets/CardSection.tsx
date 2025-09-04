@@ -1,7 +1,7 @@
 'use client';
 
 import {Card} from "@/app/lib/types";
-import React from "react";
+import React, {useEffect} from "react";
 
 interface CardSectionProps {
     children: React.ReactNode;
@@ -17,7 +17,7 @@ export const CardSectionContext = React.createContext<CardSectionContextType>({ 
 
 
 export default function CardSection({ children, cards }: CardSectionProps) {
-    const [cardsState, setCardsState] = React.useState(cards);
+    const [cardsState, setCardsState] = React.useState(cards)
 
     return (
         <CardSectionContext.Provider value={{ cards: cardsState, setCards: setCardsState }}>

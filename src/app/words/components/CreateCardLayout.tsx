@@ -8,6 +8,7 @@ import SubmitButton from "@/app/components/SubmitButton";
 import {buttonClasses} from "@/app/lib/reuse-classes";
 import {ActionResult, Card} from "@/app/lib/types";
 import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
+import OnSuccess from "@/app/components/OnSuccess";
 
 
 export default function CreateCardLayout({ deckId }: { deckId: string }) {
@@ -49,11 +50,13 @@ export default function CreateCardLayout({ deckId }: { deckId: string }) {
                 </button>
             </div>
             <PhoneModal isOpen={current.isOpen} closeModalState={closeModal as Dispatch<SetStateAction<boolean>>}>
-                <CardForm onSuccess={onSuccessAction} action={(_, fromData) => createNewCardAction(_, fromData, deckId)}>
-                    <SubmitButton className={`${buttonClasses} absolute bottom-5 left-1/2 transform -translate-x-1/2`} fallBackText={'Creating...'}>
-                        Create!
-                    </SubmitButton>
-                </CardForm>
+                <OnSuccess onSuccess={onSuccessAction}>
+                    <CardForm  action={(_, fromData) => createNewCardAction(_, fromData, deckId)}>
+                        <SubmitButton className={`${buttonClasses} absolute bottom-5 left-1/2 transform -translate-x-1/2`} fallBackText={'Creating...'}>
+                            Create!
+                        </SubmitButton>
+                    </CardForm>
+                </OnSuccess>
             </PhoneModal>
         </>
     )

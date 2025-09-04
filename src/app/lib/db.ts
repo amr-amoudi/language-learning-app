@@ -127,3 +127,23 @@ export async function deleteCard(cardId: string) {
         DELETE FROM cards
         WHERE id = ${cardId};`;
 }
+
+export async function updateCard(cardId: string, word: string, meaning: string, description?: string): Promise<Card[]> {
+    const createdWord = await createWord(word);
+    const createdMeaning = await createWord(meaning);
+
+
+
+    return sql<Card[]>`
+        WITH u as (
+            UPDATE cards
+            SET word_id = ${createdWord[0].id}, meaning_id = ${createdMeaning[0].id} ,description = ${description || null}
+            WHERE id = ${cardId}
+            RETURNING id AS card_id, *
+        )
+        SELECT w.word, m.word as meaning, u.description, u.id as card_id, u.user_id FROM u
+        JOIN words w ON u.word_id = w.id
+        JOIN words m ON u.meaning_id = m.id
+        ;
+    `
+}
