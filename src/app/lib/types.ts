@@ -1,22 +1,23 @@
 export type User = {
-  id: string,
-  name: string,
-  password: string,
-  createdAt: string
+    id: string,
+    name: string,
+    password: string,
+    createdAt: string
 }
 
 export type Deck = {
-  id: string,
-  name: string,
-  userId: string,
+    id: string,
+    name: string,
+    userId: string,
+    isActive: boolean,
 }
 
 export type Card = {
-  card_id: string,
-  word: string,
-  meaning: string,
-  description: string,
-  user_id: string,
+    card_id: string,
+    word: string,
+    meaning: string,
+    description: string,
+    user_id: string,
 }
 
 export type CardFromDB = {

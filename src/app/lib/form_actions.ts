@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import {createNewCard, createNewDeck, deleteCard, updateCard} from './db';
+import {createNewCard, createNewDeck, deleteCard, deleteDeck, updateCard, updateDeck} from './db';
 import { ActionResult } from './types';
 import returnErrorMessages from '../util/return-error-messages';
 
@@ -71,6 +71,21 @@ export async function deleteCardFromAction(_: unknown, __: FormData, cardId: str
     }
 }
 
+export async function deleteDeckFromAction(_: unknown, __: FormData, deckId: string): Promise<ActionResult> {
+    try {
+        await deleteDeck(deckId)
+
+        return {
+            succeeded: true,
+            successValue: { deckId },
+            errors: null
+        };
+    } catch (e) {
+        console.log(e);
+        return returnServerErrors();
+    }
+}
+
 export async function createNewCardAction(prevState: unknown, formData: FormData, deckId: string): Promise<ActionResult> {
   const validatedFields = CreateCardSchema.safeParse({
     word: formData.get('word'),
@@ -123,6 +138,32 @@ export async function updateCardAction(prevState: unknown, formData: FormData, c
     } catch (e) {
         console.log(e)
         return returnServerErrors()
+    }
+}
+
+export async function updateDeckFormAction(prevState: unknown, formData: FormData, deckId: string): Promise<ActionResult> {
+    const validatedFields = CreateDeckSchema.safeParse({
+        name: formData.get('name'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: returnErrorMessages({ errors: validatedFields.error.flatten().fieldErrors }),
+            succeeded: false,
+        };
+    }
+
+    try {
+        const updatedDeck = await updateDeck(deckId, validatedFields.data.name);
+
+        return {
+            succeeded: true,
+            successValue: updatedDeck,
+            errors: null
+        };
+    } catch (e) {
+        console.log(e);
+        return returnServerErrors();
     }
 }
 

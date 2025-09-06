@@ -128,6 +128,12 @@ export async function deleteCard(cardId: string) {
         WHERE id = ${cardId};`;
 }
 
+export async function deleteDeck(deckId: string) {
+    return sql`
+        DELETE FROM decks
+        WHERE id = ${deckId};`;
+}
+
 export async function updateCard(cardId: string, word: string, meaning: string, description?: string): Promise<Card[]> {
     const createdWord = await createWord(word);
     const createdMeaning = await createWord(meaning);
@@ -145,5 +151,14 @@ export async function updateCard(cardId: string, word: string, meaning: string, 
         JOIN words w ON u.word_id = w.id
         JOIN words m ON u.meaning_id = m.id
         ;
+    `
+}
+
+export async function updateDeck(deckId: string, name: string): Promise<Deck[]> {
+    return sql<Deck[]>`
+        UPDATE decks
+        SET name = ${name}
+        WHERE id = ${deckId}
+        RETURNING *;
     `
 }

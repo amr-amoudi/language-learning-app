@@ -1,6 +1,6 @@
 import DeleteForm from "@/app/components/DeleteForm";
 import SubmitButton from "@/app/components/SubmitButton";
-import {buttonClasses} from "@/app/lib/reuse-classes";
+import {buttonClasses, deleteButtonStyle} from "@/app/lib/reuse-classes";
 import {deleteCardFromAction} from "@/app/lib/form_actions";
 import {ActionResult} from "@/app/lib/types";
 
@@ -14,8 +14,6 @@ interface DeleteCardModalProps {
 }
 
 export default function DeleteCardModal({ onDelete, id, description, word, meaning, changeModal }: DeleteCardModalProps){
-    const deleteButtonStyle = "cursor-pointer text-xl font-medium bg-app_red-light text-white px-5 py-3 border-2 rounded-lg hover:bg-app_red-light border-app_orange hover:text-app_yellow flex justify-center items-center text-center"
-
     return (
         <DeleteForm onSuccess={onDelete} action={(_, formData: FormData) => deleteCardFromAction(_, formData, id)}>
             {description && <h1 datatype={'editable'} className={"text-2xl"}>Description: {description}</h1>}

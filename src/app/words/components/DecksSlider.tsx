@@ -13,7 +13,7 @@ import pencil from "@/app/assets/pencil.svg";
 import PhoneModal from "@/app/components/PhoneModal";
 import OnSuccess from "@/app/components/OnSuccess";
 import UpdateFormModal from "@/app/components/UpdateFormModal";
-import UpdateDeckModal from "@/app/components/UpdateDeckModal";
+import UpdateAndDeleteDeckModal from "@/app/components/UpdateAndDeleteDeckModal";
 
 export default function DecksSlider({ decks }: { decks: Deck[] }) {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -79,10 +79,8 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
         ))}
       </Swiper>
 
-        <PhoneModal isOpen={displayModal} closeModalState={() => setDisplayModal(false)} >
-            <UpdateDeckModal>
-
-            </UpdateDeckModal>
+        <PhoneModal height={"h-[40%]"} isOpen={displayModal} closeModalState={() => setDisplayModal(false)} >
+            <UpdateAndDeleteDeckModal deckName={decks[currentIndex].name}/>
         </PhoneModal>
     </div>
   );

@@ -1,7 +1,8 @@
 import {buttonClasses} from "@/app/lib/reuse-classes";
-import {JSX, ReactNode, useActionState, useEffect, useRef} from "react";
+import {JSX, ReactNode, useActionState, useContext, useEffect, useRef} from "react";
 import useDisplayError from "@/app/hooks/useDisplayError";
 import type {ActionResult} from "@/app/lib/types";
+import {OnSuccessContext} from "@/app/components/OnSuccess";
 
 
 interface DeleteButtonProps {
@@ -12,6 +13,7 @@ interface DeleteButtonProps {
 
 export default function DeleteForm({ children, onSuccess, action }: DeleteButtonProps) {
     const [errorElements, setErrorMessages] = useDisplayError([''], 2000)
+    const onSuccessFunction = useContext(OnSuccessContext).onSuccess
 
     const initialState: ActionResult = {
         succeeded: false,
@@ -24,6 +26,8 @@ export default function DeleteForm({ children, onSuccess, action }: DeleteButton
         if (state.succeeded) {
             if (onSuccess) {
                 onSuccess(state);
+            }else{
+                onSuccessFunction(state);
             }
         }
 

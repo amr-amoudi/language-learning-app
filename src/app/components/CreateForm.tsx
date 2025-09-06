@@ -10,11 +10,11 @@ import {OnSuccessContext} from "@/app/components/OnSuccess";
 interface AddFromModalsProps {
     children: ReactNode;
     action: (prev: unknown, FormData: FormData) => Promise<ActionResult>;
-    onSuccessFunction?: { onSuccess: (data: ActionResult) => void };
+    onSuccess?: (data: ActionResult) => void;
 }
 
-export default function CreateForm({ children, action, onSuccessFunction }: AddFromModalsProps) {
-    const { onSuccess } = useContext(OnSuccessContext)
+export default function CreateForm({ children, action, onSuccess }: AddFromModalsProps) {
+    const onSuccessFunction = useContext(OnSuccessContext).onSuccess;
     const { isOpen, setIsOpen } = useContext(ModalContext)
     const [errorElements, setErrorMessages] = useDisplayError([''], 2000)
 
@@ -30,10 +30,10 @@ export default function CreateForm({ children, action, onSuccessFunction }: AddF
             setIsOpen(false)
             // use the passed onSuccess function if it exists, otherwise use the context one
             // so old code that uses this component without using <OnSuccess> component still works
-            if (onSuccessFunction?.onSuccess) {
-                onSuccessFunction.onSuccess(state);
+            if (onSuccess) {
+                onSuccess(state);
             }else {
-                onSuccess(state)
+                onSuccessFunction(state)
             }
         }
 
