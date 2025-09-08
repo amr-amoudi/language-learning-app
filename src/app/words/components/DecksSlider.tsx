@@ -16,20 +16,20 @@ import UpdateFormModal from "@/app/components/UpdateFormModal";
 import UpdateAndDeleteDeckModal from "@/app/components/UpdateAndDeleteDeckModal";
 
 export default function DecksSlider({ decks }: { decks: Deck[] }) {
-    const [currentIndex, setCurrentIndex] = useState(0)
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [displayModal, setDisplayModal] = useState<boolean>(false)
     const router = useRouter()
 
-  // the request of the words is delayed to wait for the user's selection
-  useEffect(() => {
-    if (currentIndex !== undefined) {
-      const timeOut = setTimeout(() => {
-        router.push(`/words/${decks[currentIndex].id}`)
-      }, 400)
+    // the request of the words is delayed to wait for the user's selection
+    useEffect(() => {
+        if (currentIndex !== undefined) {
+            const timeOut = setTimeout(() => {
+                router.push(`/words/${decks[currentIndex].id}`)
+            }, 400)
 
-      return () => clearTimeout(timeOut)
-    }
-  }, [decks, currentIndex, router])
+            return () => clearTimeout(timeOut)
+        }
+    }, [decks, currentIndex, router])
 
   return (
     <div className="relative w-full max-w-screen overflow-hidden">

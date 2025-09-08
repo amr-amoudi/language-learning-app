@@ -9,9 +9,9 @@ export default async function Layout({children}: {children: React.ReactNode}) {
     return (
     <>
         <Link className="absolute top-3.5 left-2 text-app_yellow font-bold text-direct underline outline-none" href={'/'}>Go Back</Link>
-        <DecksContent decks={decks}></DecksContent>
-        <div className={'w-screen border-app_yellow border-1 my-5'}></div>
-        {children}
+        <DecksContent decks={decks}>
+            { children }
+        </DecksContent>
     </>
   )
 }

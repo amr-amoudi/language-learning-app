@@ -3,7 +3,7 @@
 import DecksSlider from "@/app/words/components/DecksSlider";
 import {buttonClasses} from "@/app/lib/reuse-classes";
 import {ActionResult, Deck} from "@/app/lib/types";
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, ReactNode, SetStateAction} from "react";
 import PhoneModal from "@/app/components/PhoneModal";
 import CreateDeckFormElements from "@/app/components/CreateDeckFormElements";
 import OnSuccess from "@/app/components/OnSuccess";
@@ -19,19 +19,18 @@ interface DecksContextProps {
 export const DecksContext = React.createContext<DecksContextProps>({ decks: [], setDecks: () => {} });
 
 
-export default function DecksContent({ decks }: { decks: Deck[] }) {
+export default function DecksContent({ decks, children }: { decks: Deck[], children: ReactNode }) {
     const [decksState, setDecksState] = React.useState(decks);
     const [current,setCurrent] = React.useState({
         isOpen: false,
         modalHtml: <></>
     });
 
-    console.log(decksState)
 
-    function updateDecksState(data: ActionResult ) {
-        setCurrent(prev => {
-            return ({ ...prev, decks: [(data.successValue as Deck[])[0], ...decksState]})
-        })
+    function updateDecksState(data: ActionResult) {
+        // the newly added deck first so it changes to it without changing the index
+        // in <DecksSlider></DecksSlider>
+        setDecksState(prev => [(data.successValue as Deck[])[0], ...prev])
     }
 
     // create a deck
@@ -62,6 +61,14 @@ export default function DecksContent({ decks }: { decks: Deck[] }) {
 
             {/* deck slider */}
             {decksState.length > 0 && <DecksSlider decks={decksState}></DecksSlider>}
+
+            {decksState.length > 0 && <div className={'w-screen border-app_yellow border-1 my-5'}></div>}
+
+            {/* the rest of the page */}
+            {/* the create button, the cards */}
+            {/* passed as children to be reactive with the decks state */}
+            { decksState.length > 0 && children }
+
 
             <PhoneModal height={'h-[40%]'} isOpen={current.isOpen} closeModalState={closeModal as Dispatch<SetStateAction<boolean>>}>
                 {current.modalHtml}
