@@ -2,8 +2,8 @@
 import { getCardsForCurrentDeck, setActiveDeck } from "@/app/lib/db";
 import { Card } from "@/app/lib/types";
 import CreateCardLayout from "@/app/words/components/CreateCardLayout";
-import CardSection from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
-import Cards from "@/app/words/[cards_from_deck_id]/components/CardComponenets/Cards";
+import CardSection from "@/app/words/[deck_id]/components/CardComponenets/CardSection";
+import Cards from "@/app/words/[deck_id]/components/CardComponenets/Cards";
 
 export default async function CardsHolder({ deckId }: { deckId: string }) {
     const cards: Card[] = await getCardsForCurrentDeck(deckId);

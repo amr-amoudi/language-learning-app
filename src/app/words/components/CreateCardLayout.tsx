@@ -7,7 +7,7 @@ import {createNewCardAction} from "@/app/lib/form_actions";
 import SubmitButton from "@/app/components/SubmitButton";
 import {buttonClasses} from "@/app/lib/reuse-classes";
 import {ActionResult, Card} from "@/app/lib/types";
-import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
+import {CardSectionContext} from "@/app/words/[deck_id]/components/CardComponenets/CardSection";
 import OnSuccess from "@/app/components/OnSuccess";
 
 

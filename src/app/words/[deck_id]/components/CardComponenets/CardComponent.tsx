@@ -4,13 +4,13 @@ import PhoneModal from "@/app/components/PhoneModal";
 import DeleteForm from "@/app/components/DeleteForm";
 import {deleteCardFromAction, updateCardAction} from "@/app/lib/form_actions";
 import {ActionResult, Card} from "@/app/lib/types";
-import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
+import {CardSectionContext} from "@/app/words/[deck_id]/components/CardComponenets/CardSection";
 import SubmitButton from "@/app/components/SubmitButton";
 import UpdateFormModal from "@/app/components/UpdateFormModal";
 import {buttonClasses} from "@/app/lib/reuse-classes";
 import CardForm from "@/app/components/CardForm";
-import UpdateCardModal from "@/app/words/[cards_from_deck_id]/components/CardComponenets/UpdateCardModal";
-import DeleteCardModal from "@/app/words/[cards_from_deck_id]/components/CardComponenets/DeleteCardModal";
+import UpdateCardModal from "@/app/words/[deck_id]/components/CardComponenets/UpdateCardModal";
+import DeleteCardModal from "@/app/words/[deck_id]/components/CardComponenets/DeleteCardModal";
 import OnSuccess from "@/app/components/OnSuccess";
 
 interface CardComponentProps {

@@ -26,7 +26,7 @@ export default function ErrorBanner({ children, dellay = 2000, rerunder, spacing
       className={`fixed left-0 z-10000 w-[50%] bg-app_red-light h-15 rounded-r-lg text-app_yellow px-3 py-2 animate-slide-in ${!display ? '-translate-x-full' : ''} transition-all`}
       style={topStyle}
     >
-      Error: {children}
+      {children}
     </div>,
     document.body
   )

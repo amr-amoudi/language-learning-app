@@ -1,10 +1,10 @@
 "use client";
 
-import CardComponent from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardComponent";
-import CardFace from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardFace";
-import CardBack from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardBack";
+import CardComponent from "@/app/words/[deck_id]/components/CardComponenets/CardComponent";
+import CardFace from "@/app/words/[deck_id]/components/CardComponenets/CardFace";
+import CardBack from "@/app/words/[deck_id]/components/CardComponenets/CardBack";
 import {useContext} from "react";
-import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
+import {CardSectionContext} from "@/app/words/[deck_id]/components/CardComponenets/CardSection";
 
 export default function Cards(){
     const { cards, setCards } = useContext(CardSectionContext);

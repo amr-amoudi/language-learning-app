@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+input {
+    font-size: 16px;
+}
+
 .side-shadow-right {
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
 }
@@ -125,6 +129,31 @@
 
     100% {
         background-color: hsl(200, 20%, 80%);
+    }
+}
+
+
+.scroll {
+    animation: scroll 5s linear infinite;
+}
+
+@keyframes scroll {
+    0%{
+        transform: translateX(150%);
+        opacity: 0;
+    }
+
+    10%{
+        opacity: 1;
+    }
+
+    90%{
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateX(-150%);
+        opacity: 0;
     }
 }
 

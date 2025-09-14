@@ -71,7 +71,7 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
             className="text-app_yellow text-center text-3xl text-shadow-app_orange text-shadow-2xs z-2  flex flex-col items-center justify-center relative"
             key={deck.id}
           >
-            <DeckName>{deck.name.slice(0,5)}</DeckName>
+            <DeckName>{deck.name}</DeckName>
               <button onClick={() => setDisplayModal(true)} className={'absolute top-0 left-[-10px] flex justify-center items-center h-fit'}>
                   <Image width={15} height={10} className={'rotate-90'} src={pencil} alt="edit"/>
               </button>
@@ -80,7 +80,7 @@ export default function DecksSlider({ decks }: { decks: Deck[] }) {
       </Swiper>
 
         <PhoneModal height={"h-[40%]"} isOpen={displayModal} closeModalState={() => setDisplayModal(false)} >
-            <UpdateAndDeleteDeckModal deckName={decks[currentIndex].name}/>
+            <UpdateAndDeleteDeckModal deckName={decks[currentIndex]?.name || decks[currentIndex - 1]?.name}/> {/* if the last deck was deleted it switches to the one before it */}
         </PhoneModal>
     </div>
   );

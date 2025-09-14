@@ -5,7 +5,7 @@ import {buttonClasses, inputClasses, labelClasses} from "../lib/reuse-classes"
 import useDisplayError from "../hooks/useDisplayError"
 import React from "react";
 import {ActionResult, Card} from "@/app/lib/types";
-import {CardSectionContext} from "@/app/words/[cards_from_deck_id]/components/CardComponenets/CardSection";
+import {CardSectionContext} from "@/app/words/[deck_id]/components/CardComponenets/CardSection";
 import CreateForm from "@/app/components/CreateForm";
 import SubmitButton from "@/app/components/SubmitButton";
 
