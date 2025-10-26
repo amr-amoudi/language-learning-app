@@ -63,7 +63,8 @@ export async function getCardsForCurrentDeck(deck_id: string): Promise<Card[]> {
             word.word AS word,
             meaning.word AS meaning,
             c.description,
-            c.user_id
+            c.user_id,
+            c.mark
           FROM
             deck_cards dc
               JOIN
@@ -76,7 +77,108 @@ export async function getCardsForCurrentDeck(deck_id: string): Promise<Card[]> {
             ORDER BY c.created_at DESC;`
 }
 
-export async function createNewCard({ userId, word, meaning, description, deckId }: CreateNewCard): Promise<Card> {
+export async function getCardsForTest(deck_id: string): Promise<Card[]> {
+    // 5 with mark of 0 introduce new word
+    // 5 with mark of 5 multi choice
+    // 3 with mark of 10 meaning test
+    // 2 with mark of 15 word test
+    // 2 with the mark of 20 todo
+
+    return sql<Card[]>`
+        (SELECT
+            c.id AS card_id,
+            word.word AS word,
+            meaning.word AS meaning,
+            c.description,
+            c.user_id,
+            c.mark
+        FROM
+            deck_cards dc
+                JOIN
+            cards c ON c.id = dc.card_id
+                JOIN
+            words word ON c.word_id = word.id
+                JOIN
+            words meaning ON c.meaning_id = meaning.id
+        WHERE dc.deck_id = ${deck_id} AND c.mark <= 0
+        LIMIT 5)
+        UNION
+        (SELECT
+            c.id AS card_id,
+            word.word AS word,
+            meaning.word AS meaning,
+            c.description,
+            c.user_id,
+            c.mark
+        FROM
+            deck_cards dc
+                JOIN
+            cards c ON c.id = dc.card_id
+                JOIN
+            words word ON c.word_id = word.id
+                JOIN
+            words meaning ON c.meaning_id = meaning.id
+        WHERE dc.deck_id = ${deck_id} AND c.mark <= 5
+        LIMIT 5)
+        UNION
+        (SELECT
+            c.id AS card_id,
+            word.word AS word,
+            meaning.word AS meaning,
+            c.description,
+            c.user_id,
+            c.mark
+        FROM
+            deck_cards dc
+                JOIN
+            cards c ON c.id = dc.card_id
+                JOIN
+            words word ON c.word_id = word.id
+                JOIN
+            words meaning ON c.meaning_id = meaning.id
+        WHERE dc.deck_id = ${deck_id} AND c.mark <= 10
+        LIMIT 3)
+        UNION
+        (SELECT
+            c.id AS card_id,
+            word.word AS word,
+            meaning.word AS meaning,
+            c.description,
+            c.user_id,
+            c.mark
+        FROM
+            deck_cards dc
+                JOIN
+            cards c ON c.id = dc.card_id
+                JOIN
+            words word ON c.word_id = word.id
+                JOIN
+            words meaning ON c.meaning_id = meaning.id
+        WHERE dc.deck_id = ${deck_id} AND c.mark <= 15
+        LIMIT 2)
+        UNION
+        (SELECT
+            c.id AS card_id,
+            word.word AS word,
+            meaning.word AS meaning,
+            c.description,
+            c.user_id,
+            c.mark
+        FROM
+            deck_cards dc
+                JOIN
+            cards c ON c.id = dc.card_id
+                JOIN
+            words word ON c.word_id = word.id
+                JOIN
+            words meaning ON c.meaning_id = meaning.id
+        WHERE dc.deck_id = ${deck_id} AND c.mark <= 20
+        LIMIT 2)
+        ORDER BY mark ASC;
+    `;
+}
+
+export async function createNewCard({ userId, word, meaning, description, deckId }: CreateNewCard): Promise<Omit<Card, "mark">> {
     try {
         const createdWord = await createWord(word);
         const createdMeaning = await createWord(meaning);

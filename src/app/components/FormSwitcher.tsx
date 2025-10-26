@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 
@@ -10,7 +11,10 @@ interface FormSwitcherContextProps {
 export const FormSwitcherContext = React.createContext<FormSwitcherContextProps>(
     { setActiveForm: (number: number) => {}, nextForm: () => {}, previousForm: () => {} });
 
+// must be the parent of all forms that will be switched between
+
 export default function FormSwitcher({ children, displayFormsAs }: { children: React.ReactNode[], displayFormsAs?: 'block' | 'inline-block' | 'flex' }) {
+
     const [activeIndex, setActiveIndex] = React.useState(0);
 
     function setActiveForm(index: number) {

@@ -18,6 +18,7 @@ export type Card = {
     meaning: string,
     description: string,
     user_id: string,
+    mark: number
 }
 
 export type CardFromDB = {
