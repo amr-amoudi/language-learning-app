@@ -1,11 +1,13 @@
-import { ReactNode } from "react";
+import {HTMLAttributes, ReactNode} from "react";
 import {useFormStatus} from "react-dom";
 
 
-interface SubmitButtonProps {
+interface SubmitButtonProps extends HTMLAttributes<HTMLButtonElement>{
     children: ReactNode;
-    className: string;
+    className?: string;
+    // Text to show when the form is pending
     fallBackText?: string;
+    // if you want to override the type
     type?: "submit" | "button" | "reset" | undefined;
     rest?: React.HTMLAttributes<HTMLButtonElement>;
 }

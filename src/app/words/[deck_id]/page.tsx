@@ -7,7 +7,7 @@ import CardsSkeleton from "@/app/words/[deck_id]/CardsSkeleton";
 import Link from "next/link";
 import {buttonClasses} from "@/app/lib/reuse-classes";
 
-export default async function CardsFromDeckId({ params }: { params: { deck_id: string } }) {
+export default async function CardsFromDeckId({ params }: { params: Promise<{ deck_id: string }> }) {
     const { deck_id } = await params;
 
     try {

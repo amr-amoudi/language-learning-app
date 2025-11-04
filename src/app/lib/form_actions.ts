@@ -1,8 +1,8 @@
 'use server'
 
 import { z } from 'zod'
-import {createNewCard, createNewDeck, deleteCard, deleteDeck, updateCard, updateDeck} from './db';
-import { ActionResult } from './types';
+import {createNewCard, createNewDeck, deleteCard, deleteDeck, updateCard, updateCardsMark, updateDeck} from './db';
+import {ActionResult, Result} from './types';
 import returnErrorMessages from '../util/return-error-messages';
 
 const CreateDeckSchema = z.object({
@@ -167,3 +167,12 @@ export async function updateDeckFormAction(prevState: unknown, formData: FormDat
     }
 }
 
+export async function submitResultsAction(prevState: unknown, formData: FormData, deckId: string, results: Result[]): Promise<void> {
+    try {
+        console.log('Submitting results for deck:', deckId);
+        console.log('Results:', results);
+        await updateCardsMark(results)
+    } catch(e) {
+        console.log(e)
+    }
+}

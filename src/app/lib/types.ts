@@ -55,4 +55,7 @@ export type CreateNewCard = {
     deckId: string;
 }
 
-
+export interface Result {
+    card_id: string;
+    passed: boolean;
+}

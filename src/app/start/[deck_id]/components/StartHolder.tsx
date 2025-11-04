@@ -1,7 +1,7 @@
 "use client"
-import {Card} from "@/app/lib/types";
+import {Card, Result} from "@/app/lib/types";
 import WordIntroduction from "@/app/start/[deck_id]/components/WordIntroduction";
-import CardMeaningTest from "@/app/start/[deck_id]/components/CardMeaningTest";
+import TypingTest from "@/app/start/[deck_id]/components/TypingTest";
 import CardWordTest from "@/app/start/[deck_id]/components/CardWordTest";
 import MultiChoice from "@/app/start/[deck_id]/components/MultiChoice";
 import CardsDataHolder from "@/app/start/[deck_id]/components/CardsDataHolder";
@@ -14,14 +14,33 @@ interface StartHolderProps {
     cards: Card[]
 }
 
-export const TestResultContext = createContext<{ testResult: boolean[], setTestResult: Dispatch<SetStateAction<boolean[]>> }>({ testResult: [], setTestResult: () => {} })
+interface TestResultContextTypes {
+    testResult: Result[],
+    setTestResult: Dispatch<SetStateAction<Result[]>>,
+    addResult: (result: Result) => void,
+}
+
+
+
+export const TestResultContext = createContext<TestResultContextTypes>(
+    {
+        testResult: [],
+        setTestResult: () => {
+        },
+        addResult: (result: Result) => {
+        }
+    })
 
 export default function StartHolder({ cards }: StartHolderProps){
-    const [testResult, setTestResult] = useState<boolean[]>([]);
+    const [testResult, setTestResult] = useState<Result[]>([]);
 
     useEffect(() => {
         console.log(testResult);
     }, [testResult]);
+
+    function addResult(result: Result) {
+        setTestResult(prev => [...prev, result]);
+    }
 
     // each card has its own test passed on its mark
     const testForACard = cards.map(card =>  {
@@ -33,12 +52,8 @@ export default function StartHolder({ cards }: StartHolderProps){
                     <MultiChoice rightChoice={card} key={nanoid()}></MultiChoice>
                 </CardsDataHolder>
             )
-        }else if(card.mark === 10){
-            return <CardMeaningTest key={card.card_id} card={card}></CardMeaningTest>
-        }else if(card.mark === 15){
-            return(
-                <CardWordTest key={card.card_id} card={card}></CardWordTest>
-            )
+        }else if(card.mark >= 10){
+            return <TypingTest key={card.card_id} card={card}></TypingTest>
         } else {
             <h1 key={card.card_id}>{ card.mark }</h1>
         }
@@ -49,11 +64,11 @@ export default function StartHolder({ cards }: StartHolderProps){
 
     return (
         <div className={'mt-14 h-screen w-screen'}>
-            <TestResultContext.Provider value={{ testResult, setTestResult }}>
+            <TestResultContext.Provider value={{ testResult, setTestResult, addResult }}>
                 <FormSwitcher>
                     {[
                         ...testForACard,
-                        <SessionCompleted key={"session"}></SessionCompleted>
+                        <SessionCompleted results={testResult} key={"session"}></SessionCompleted>
                     ]}
                 </FormSwitcher>
             </TestResultContext.Provider>

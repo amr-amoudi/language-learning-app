@@ -1,7 +1,7 @@
 'use server'
 
 import postgres from "postgres"
-import {Card, CreateNewCard, Deck, ReturnedCard, Word} from "./types";
+import {Card, CreateNewCard, Deck, Result, ReturnedCard, Word} from "./types";
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' })
 
@@ -154,8 +154,7 @@ export async function getCardsForTest(deck_id: string): Promise<Card[]> {
             words word ON c.word_id = word.id
                 JOIN
             words meaning ON c.meaning_id = meaning.id
-        WHERE dc.deck_id = ${deck_id} AND c.mark <= 15
-        LIMIT 2)
+        WHERE dc.deck_id = ${deck_id} AND c.mark <= 15 LIMIT 3)
         UNION
         (SELECT
             c.id AS card_id,
@@ -263,4 +262,18 @@ export async function updateDeck(deckId: string, name: string): Promise<Deck[]> 
         WHERE id = ${deckId}
         RETURNING *;
     `
+}
+
+// typescript
+export async function updateCardsMark(result: Result[]) {
+    // create array of arrays: [card_id, delta]
+    const updates = result.map(r => [r.card_id, r.passed ? 5 : -5]);
+
+    console.log(updates)
+    return sql`
+    UPDATE cards
+    SET mark = cards.mark + update_data.delta::int
+    FROM (VALUES ${sql(updates)}) AS update_data(card_id, delta)
+    WHERE cards.id = update_data.card_id::uuid
+  `;
 }
