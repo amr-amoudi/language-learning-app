@@ -16,7 +16,7 @@ export default function CreateDeckFormElements({ children, name }: { children?: 
     })
 
   return (
-        <>
+        <div className={"relative w-full h-full"}>
             { ...errorElements }
             <div className="flex justify-center items-center flex-col">
                 <label className={labelClasses} htmlFor="name">name: </label>
@@ -25,6 +25,6 @@ export default function CreateDeckFormElements({ children, name }: { children?: 
             { children ||
                 <SubmitButton className={`${buttonClasses} absolute bottom-5 left-1/2 transform -translate-x-1/2`} fallBackText={'Creating...'}>Create!</SubmitButton>
             }
-        </>
+        </div>
   )
 }

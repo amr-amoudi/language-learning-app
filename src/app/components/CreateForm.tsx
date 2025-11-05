@@ -44,7 +44,7 @@ export default function CreateForm({ children, action, onSuccess }: AddFromModal
     }, [state]);
 
     return (
-        <form className="pb-[10%] relitive" action={formAction}>
+        <form className="h-full pb-[10%] relitive" action={formAction}>
 
             {...errorElements}
 

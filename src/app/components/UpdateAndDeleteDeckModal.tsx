@@ -58,7 +58,7 @@ export default function UpdateAndDeleteDeckModal({ deckName }: { deckName: strin
 
     return (
         <OnSuccess onSuccess={handleOnSuccess}>
-            <FormSwitcher>
+            <FormSwitcher className={"h-full"}>
                 <DeleteForm action={(_, formData) => deleteDeckFromAction(_, formData, deckId)}>
                     <h1 className={"text-2xl"}>Name: &#34;{deckName}&#34;</h1>
 
@@ -68,6 +68,7 @@ export default function UpdateAndDeleteDeckModal({ deckName }: { deckName: strin
                         </SubmitButton>
                         <FormSwitcherContext.Consumer>
                             {({nextForm}) => (
+                                // when clicked, switch to update form
                                 <button type={'button'} className={buttonClasses} onClick={() => {
                                     nextForm()
                                 }}> Edit </button>

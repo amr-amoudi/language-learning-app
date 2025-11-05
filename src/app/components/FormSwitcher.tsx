@@ -13,7 +13,7 @@ export const FormSwitcherContext = React.createContext<FormSwitcherContextProps>
 
 // must be the parent of all forms that will be switched between
 
-export default function FormSwitcher({ children, displayFormsAs }: { children: React.ReactNode[], displayFormsAs?: 'block' | 'inline-block' | 'flex' }) {
+export default function FormSwitcher({ children, displayFormsAs, className }: { children: React.ReactNode[], displayFormsAs?: 'block' | 'inline-block' | 'flex', className?: string }) {
 
     const [activeIndex, setActiveIndex] = React.useState(0);
 
@@ -38,7 +38,7 @@ export default function FormSwitcher({ children, displayFormsAs }: { children: R
     return (
         <FormSwitcherContext.Provider value={{ setActiveForm, nextForm, previousForm }}>
             {children.map((item, index) => {
-                return <div key={index} className={`${activeIndex === index ? displayFormsAs || 'block' : 'hidden'}`}>
+                return <div key={index} className={`${activeIndex === index ? displayFormsAs || `block ${className}` : 'hidden'}`}>
                     {item}
                 </div>
             })}
