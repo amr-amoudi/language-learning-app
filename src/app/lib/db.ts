@@ -1,16 +1,29 @@
 'use server'
 
 import postgres from "postgres"
-import {Card, CreateNewCard, Deck, Result, ReturnedCard, Word} from "./types";
+import {Card, CreateNewCard, Deck, Result, ReturnedCard, User, Word} from "./types";
+import bcrypt from "bcryptjs";
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' })
 
-export async function getUsers() {
-  const users = await sql`
-    SELECT * FROM users;
+export async function getUsersByNameAndPassword(username: string, password: string): Promise<User[]> {
+  const user =  await sql<User[]>`
+    SELECT * FROM users
+    where ${username} = username;
   `;
+    console.log(user, "fawwhguiweahhuigrhgrhuigri")
+  return await bcrypt.compare(password,user[0].password) ? user : [];
+}
 
-  return users;
+export async function createNewUser(username: string, password: string): Promise<User[]> {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log("fafawfa")
+  return sql<User[]>`
+    INSERT INTO users (username, password)
+    VALUES (${username}, ${hashedPassword})
+    RETURNING *;
+  `;
 }
 
 export async function getDecksForUser(userId: string): Promise<Deck[]> {

@@ -1,10 +1,14 @@
 'use server'
 
 import { z } from 'zod'
-import { createNewCard, createNewDeck, deleteCard, deleteDeck, updateCard, updateCardsMark, updateDeck } from './db';
-import { ActionResult, Result } from './types';
+import {
+    createNewCard, createNewDeck, createNewUser, deleteCard, deleteDeck,
+    getUsersByNameAndPassword, updateCard, updateCardsMark, updateDeck
+} from './db';
+import {ActionResult, Result, User} from './types';
 import returnErrorMessages from '../util/return-error-messages';
 import { redirect } from "next/navigation"
+import {LogIn} from "@/app/auth/LogIn/LogIn";
 
 const CreateDeckSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -20,6 +24,11 @@ const UpdateCardSchema = z.object({
   word: z.string({ error: "word must be text" }).min(1, "word is required").optional(),
   meaning: z.string({ error: "meaning must be text" }).min(1, "meaning is required").optional(),
   description: z.string().optional()
+})
+
+const creditialsSchema = z.object({
+    username: z.string().min(1, "Username is required"),
+    password: z.string().min(1, "Password is required")
 })
 
 function returnServerErrors(): ActionResult {
@@ -178,4 +187,52 @@ export async function submitResultsAction(prevState: unknown, formData: FormData
 
 
   redirect("/")
+}
+
+export async function LoginAction(prevState: unknown, formData: FormData): Promise<ActionResult> {
+    const validatedFields = creditialsSchema.safeParse({
+        username: formData.get('username'),
+        password: formData.get('password')
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: returnErrorMessages({ errors: validatedFields.error.flatten().fieldErrors }),
+            succeeded: false,
+        };
+    }
+
+    try {
+        const userId = await getUsersByNameAndPassword(validatedFields.data?.username, validatedFields.data?.password);
+        console.log(userId)
+        await LogIn(userId[0].id)
+    }catch (e) {
+        console.log(e)
+    }
+
+    redirect("/words")
+}
+
+
+export default async function SignUpAction(prevState: unknown, formData: FormData) {
+    const validatedFields = creditialsSchema.safeParse({
+        username: formData.get('username'),
+        password: formData.get('password')
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: returnErrorMessages({errors: validatedFields.error.flatten().fieldErrors}),
+            succeeded: false,
+        };
+    }
+
+    try {
+        const user = await createNewUser(validatedFields.data.username, validatedFields.data.password);
+        await LogIn(user[0].id)
+    }catch (e) {
+        console.log(e)
+    }
+
+    redirect("/words")
 }

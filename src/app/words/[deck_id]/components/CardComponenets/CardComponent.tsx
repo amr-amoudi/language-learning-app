@@ -90,6 +90,7 @@ export default function CardComponent({ id, description, children, cardsContext,
 
   return (
     <div className={`w-screen flex items-center justify-center my-2.5`}>
+        <CardProgressBar mark={mark}></CardProgressBar>
       {/* the main container for the card*/}
       <div className={'w-[70%] min-h-[80px] bg-none relative'}>
         {/*the card itself*/}

@@ -22,7 +22,6 @@ export default function Cards({ cardsProp, setCardsProp }: { cardsProp?: Card[],
 
         return (
           <CardComponent mark={card.mark} key={card.card_id + Date()} cardsContext={{ cards: (cardsProp || cards), setCards: (setCardsProp || setCards) }} id={card.card_id} description={card.description} >
-            <CardProgressBar mark={card.mark}></CardProgressBar>
             <CardFace key={card.word + card.card_id}>
               {card.word}
             </CardFace>
