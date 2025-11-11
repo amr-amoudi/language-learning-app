@@ -9,7 +9,7 @@ const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' })
 export async function getUsersByNameAndPassword(username: string, password: string): Promise<User[]> {
   const user =  await sql<User[]>`
     SELECT * FROM users
-    where ${username} = username;
+    where ${username.toLowerCase().trim()} = username;
   `;
   try {
       return await bcrypt.compare(password,user[0].password) ? user : [];
@@ -21,10 +21,9 @@ export async function getUsersByNameAndPassword(username: string, password: stri
 export async function createNewUser(username: string, password: string): Promise<User[]> {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log("fafawfa")
   return sql<User[]>`
     INSERT INTO users (username, password)
-    VALUES (${username}, ${hashedPassword})
+    VALUES (${username.toLowerCase().trim()}, ${hashedPassword})
     RETURNING *;
   `;
 }

@@ -13,7 +13,7 @@ export default function Cards({ cardsProp, setCardsProp }: { cardsProp?: Card[],
 
 
   if ((cardsProp || cards).length === 0) {
-    return <div className="text-app_yellow text-center">there are no Cards, maybe add some🤗</div>
+    return <div className="text-app_yellow text-center">there are no Cards, maybe add some</div>
   }
 
   return (

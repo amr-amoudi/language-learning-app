@@ -19,13 +19,13 @@ export default function CardComponent({ id, description, children, cardsContext,
   const { setCards, cards } = cardsContext;
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState({ modal: false, modalContent: <></> });
-  const [showInfoButton, setShowInfoButton] = React.useState(true);
+  const [isFlipping, setIsFlipping] = React.useState(true);
   const word = children[0].props.children as string;
   const meaning = children[1].props.children as string;
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      setShowInfoButton(true);
+      setIsFlipping(true);
     }, 350);
 
     return () => clearTimeout(timeOut);
@@ -90,13 +90,15 @@ export default function CardComponent({ id, description, children, cardsContext,
 
   return (
     <div className={`w-screen flex items-center justify-center my-2.5`}>
-        <CardProgressBar mark={mark}></CardProgressBar>
       {/* the main container for the card*/}
       <div className={'w-[70%] min-h-[80px] bg-none relative'}>
+          { isFlipping &&
+              <CardProgressBar mark={mark}></CardProgressBar>
+          }
         {/*the card itself*/}
         <div onClick={() => {
           setIsFlipped(!isFlipped)
-          setShowInfoButton(false);
+          setIsFlipping(false);
         }} className={`relative w-full h-full min-h-[80px] rounded-md
                                 transition-all duration-500 border-app_red-dark border-2 px-2 py-1 
                                 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)] ${isFlipped ? '[transform:rotateY(180deg)]' : ''} 
@@ -107,15 +109,15 @@ export default function CardComponent({ id, description, children, cardsContext,
 
 
         {/* if description exists */}
-        {showInfoButton &&
-          <button onClick={changeToDeleteModal} className={`absolute top-1 left-1 border-2 
+        {isFlipping &&
+          <button type={"button"} onClick={changeToDeleteModal} className={`absolute top-1 left-1 border-2 
                     border-app_red-light rounded-full w-[25px] h-[25px] flex items-center justify-center text-xl text-app_yellow bg-transparent-orange
                     `}>
             i
           </button>
         }
 
-        {showInfoButton &&
+        {isFlipping &&
           <PhoneModal isOpen={isOpen.modal} closeModalState={() => setIsOpen({ modal: false, modalContent: <></> })}>
             {isOpen.modalContent}
           </PhoneModal>

@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { getCardsForCurrentDeck, getDecksForUser } from "../lib/db"
 import {Deck, ReturnedCard} from "../lib/types"
+import {getUserIdFromToken} from "@/app/auth/utils";
 
 export default async function WordsPage() {
-    const decks: Deck[] = await getDecksForUser('c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9')
+    const decks: Deck[] = await getDecksForUser(await getUserIdFromToken())
     // let cards: ReturnedCard[] = []
     if (decks.length > 0) {
         // cards = await getCardsForCurrentDeck(decks[0].id)

@@ -10,10 +10,7 @@ export default async function Page({ params }: { params: Promise<{ deck_id: stri
     const cards = await getCardsForTest(deck_id)
 
     return (
-        <>
-            <GoBackButton href={'/'} />
-            <StartHolder cards={cards}></StartHolder>
-        </>
+       <StartHolder cards={cards}></StartHolder>
     )
 }
 

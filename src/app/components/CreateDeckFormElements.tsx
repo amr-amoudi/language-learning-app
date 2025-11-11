@@ -16,7 +16,7 @@ export default function CreateDeckFormElements({ children, name }: { children?: 
     })
 
   return (
-        <div className={"relative w-full h-full"}>
+        <div className={"w-full h-full"}>
             { ...errorElements }
             <div className="flex justify-center items-center flex-col">
                 <label className={labelClasses} htmlFor="name">name: </label>

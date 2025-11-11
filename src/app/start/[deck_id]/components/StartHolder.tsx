@@ -34,10 +34,6 @@ export const TestResultContext = createContext<TestResultContextTypes>(
 export default function StartHolder({ cards }: StartHolderProps) {
   const [testResult, setTestResult] = useState<Result[]>([]);
 
-  useEffect(() => {
-    console.log(testResult);
-  }, [testResult]);
-
   function addResult(result: Result) {
     setTestResult(prev => [...prev, result]);
   }
@@ -48,9 +44,9 @@ export default function StartHolder({ cards }: StartHolderProps) {
       return <WordIntroduction key={card.card_id} card={card} />
     } else if (card.mark === 5) {
       return (
-        <CardsDataHolder cards={cards} key={nanoid()}>
-          <MultiChoice rightChoice={card} key={nanoid()}></MultiChoice>
-        </CardsDataHolder>
+          cards.length >= 2 ?         <CardsDataHolder cards={cards} key={nanoid()}>
+              <MultiChoice rightChoice={card} key={nanoid()}></MultiChoice>
+          </CardsDataHolder> : <WordIntroduction key={card.card_id} card={card}></WordIntroduction>
       )
     } else if (card.mark >= 10) {
       return <TypingTest key={card.card_id} card={card}></TypingTest>

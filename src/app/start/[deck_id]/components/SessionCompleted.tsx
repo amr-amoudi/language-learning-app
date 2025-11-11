@@ -9,8 +9,7 @@ import Cards from "@/app/words/[deck_id]/components/CardComponenets/Cards";
 
 export default function SessionCompleted({ results }: { results: Result[] }) {
   const { cards } = useContext(CardsData);
-  console.log(cards);
-
+    cards.map((card,index) => card.card_id === results[index]?.card_id)
   return (
     <form
       action={async (formData: FormData) => {
@@ -22,7 +21,13 @@ export default function SessionCompleted({ results }: { results: Result[] }) {
       <p className="text-2xl text-app_yellow mb-20 text-center">
         Great job on completing your session. Keep up the good work!
       </p>
-      <Cards cardsProp={cards}></Cards>
+      <Cards cardsProp={cards.map((card, index) => {
+          if(results[index]?.passed) {
+              return { ...card, mark: card.mark + 5 };
+          }else if(!results[index]?.passed && card.mark >= 5){
+              return { ...card, mark: card.mark - 5 };
+          }else return card
+      })}></Cards>
       <div>
         <SubmitButton className={`${buttonClasses}`} type="submit">
           Go Home

@@ -11,31 +11,6 @@ import UpdateDeckForm from "@/app/components/UpdateDeckForm";
 import {ActionResult, Deck} from "@/app/lib/types";
 import {DecksContext} from "@/app/words/components/DecksContent";
 
-
-// Update Response Example
-// {
-//   "succeeded": true,
-//   "successValue": [
-//     {
-//       "id": "56b500d1-d721-48af-af7d-4fb28860d557",
-//       "name": "help",
-//       "user_id": "c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9",
-//       "is_active": true
-//     }
-//   ],
-//   "errors": null
-// }
-
-// Delete response example
-//{
-//   "succeeded": true,
-//   "successValue": {
-//     "deckId": "56b500d1-d721-48af-af7d-4fb28860d557"
-//   },
-//   "errors": null
-// }
-
-
 export default function UpdateAndDeleteDeckModal({ deckName }: { deckName: string }) {
     const { setDecks } = React.useContext(DecksContext);
     const deckId = usePathname().split('/')[2];

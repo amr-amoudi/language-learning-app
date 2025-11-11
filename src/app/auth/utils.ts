@@ -2,8 +2,7 @@
 "use server";
 
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import {cookies} from "next/headers";
 
 const key = new TextEncoder().encode(process.env.KEY || "secret");
 
@@ -21,5 +20,12 @@ export async function decrypt(input: string) {
     });
 
     return payload;
+}
+
+export async function getUserIdFromToken(): Promise<string> {
+    const cookieData = await cookies()
+    const token = cookieData.get('user_id')?.value || "";
+    const payload = await decrypt(token);
+    return payload.userId as string;
 }
 

@@ -9,6 +9,8 @@ import {ActionResult, Result, User} from './types';
 import returnErrorMessages from '../util/return-error-messages';
 import { redirect } from "next/navigation"
 import {LogIn} from "@/app/auth/LogIn";
+import {getUserIdFromToken} from "@/app/auth/utils";
+import {asyncWrapProviders} from "node:async_hooks";
 
 const CreateDeckSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -26,7 +28,7 @@ const UpdateCardSchema = z.object({
   description: z.string().optional()
 })
 
-const creditialsSchema = z.object({
+const credentialsSchema = z.object({
     username: z.string().min(1, "Username is required"),
     password: z.string().min(1, "Password is required")
 })
@@ -51,7 +53,7 @@ export async function createDeckAction(prevState: unknown, formData: FormData): 
   }
 
   try {
-    const newDeck = await createNewDeck('c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', validatedFields.data.name);
+    const newDeck = await createNewDeck(await getUserIdFromToken(), validatedFields.data.name);
 
     return {
       succeeded: true,
@@ -97,6 +99,7 @@ export async function deleteDeckFromAction(_: unknown, __: FormData, deckId: str
 }
 
 export async function createNewCardAction(prevState: unknown, formData: FormData, deckId: string): Promise<ActionResult> {
+    const userId = await getUserIdFromToken();
   const validatedFields = CreateCardSchema.safeParse({
     word: formData.get('word'),
     meaning: formData.get('meaning'),
@@ -111,7 +114,7 @@ export async function createNewCardAction(prevState: unknown, formData: FormData
   }
 
   try {
-    const result = await createNewCard({ userId: 'c1fc20c4-d5c7-43e9-85d7-b0c905a6f8a9', deckId, ...validatedFields.data }) // validatedFields.data is guaranteed to have word, meaning, and description could be null
+    const result = await createNewCard({ userId: userId , deckId, ...validatedFields.data }) // validatedFields.data is guaranteed to have word, meaning, and description could be null
     return {
       successValue: result,
       errors: [],
@@ -190,7 +193,7 @@ export async function submitResultsAction(prevState: unknown, formData: FormData
 }
 
 export async function LoginAction(prevState: unknown, formData: FormData): Promise<ActionResult> {
-    const validatedFields = creditialsSchema.safeParse({
+    const validatedFields = credentialsSchema.safeParse({
         username: formData.get('username'),
         password: formData.get('password')
     })
@@ -220,7 +223,7 @@ export async function LoginAction(prevState: unknown, formData: FormData): Promi
 
 
 export default async function SignUpAction(prevState: unknown, formData: FormData): Promise<ActionResult>{
-    const validatedFields = creditialsSchema.safeParse({
+    const validatedFields = credentialsSchema.safeParse({
         username: formData.get('username'),
         password: formData.get('password')
     })

@@ -9,10 +9,11 @@ import {buttonClasses} from "@/app/lib/reuse-classes";
 import {ActionResult, Card} from "@/app/lib/types";
 import {CardSectionContext} from "@/app/words/[deck_id]/components/CardComponenets/CardSection";
 import OnSuccess from "@/app/components/OnSuccess";
+import Link from "next/link";
 
 
 export default function CreateCardLayout({ deckId }: { deckId: string }) {
-    const { setCards } = useContext(CardSectionContext)
+    const { cards,setCards } = useContext(CardSectionContext)
 
     const [current, setCurrent] = useState({
         isOpen: false,
@@ -35,6 +36,9 @@ export default function CreateCardLayout({ deckId }: { deckId: string }) {
 
     return (
         <>
+            { cards.length > 0 &&
+                <Link href={`/start/` + (deckId) + "?source=words"} className={"absolute bottom-5 left-1/2 right-1/2 bg-app_orange w-[95%] -translate-x-1/2 text-center text-app_red-dark border-2 rounded-lg border-app_yellow py-2.5 font-bold text-3xl"}>Start!</Link>
+            }
             <div className="w-screen flex justify-center text-center flex-col items-center
                           bg-transparent border-x-0 border-b-0 mt-5 font-semibold text-changer">
                 <button onClick={openModal} className="w-[80%] border-app_yellow bg-transparent-orange py-2.5 px-1
