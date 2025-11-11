@@ -1,5 +1,5 @@
 'use client'
-import {LoginAction} from "@/app/lib/form_actions";
+import SignUpAction from "@/app/lib/form_actions";
 import {FormSwitcherContext} from "@/app/components/FormSwitcher";
 import {useActionState, useContext} from "react";
 import {ActionResult} from "@/app/lib/types";
@@ -12,7 +12,7 @@ export default function SignUpForm(){
         errors: [],
         successValue: undefined,
     }
-    const [_, action] = useActionState(LoginAction, initialState)
+    const [_, action] = useActionState(SignUpAction, initialState)
 
     return (
         <form action={action}>

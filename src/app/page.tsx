@@ -1,6 +1,8 @@
 import Link from "next/link";
 import {getDecksForUser} from "@/app/lib/db";
 import {getUserId} from "@/app/lib/user-data";
+import {logOut} from "@/app/auth/LogOut";
+import {buttonClasses} from "@/app/lib/reuse-classes";
 
 export default async function mainPage() {
     const userId = await getUserId();
@@ -21,11 +23,13 @@ export default async function mainPage() {
                         </Link>
                     </div>
                     <div className="col-end-4 col-start-3 flex justify-end items-start">
-                        <button className="flex flex-col gap-1 cursor-pointer">
-                            <div className="w-7 h-1.5 bg-amber-500"></div>
-                            <div className="w-7 h-1.5 bg-amber-500"></div>
-                            <div className="w-7 h-1.5 bg-amber-500"></div>
-                        </button>
+                        <button className={"cursor-pointer text-xl font-medium bg-app_orange text-app_red-dark px-5 py-3 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow"} type={"submit"} onClick={logOut}>LogOut</button>
+                        {/* burger button */}
+                        {/*<button className="flex flex-col gap-1 cursor-pointer">*/}
+                        {/*    <div className="w-7 h-1.5 bg-amber-500"></div>*/}
+                        {/*    <div className="w-7 h-1.5 bg-amber-500"></div>*/}
+                        {/*    <div className="w-7 h-1.5 bg-amber-500"></div>*/}
+                        {/*</button>*/}
                     </div>
                     <div className="col-end-3 col-start-2 row-end-3 row-start-2 flex justify-center items-center">
                         <Link href={'/start/' + (decks[0]?.id || "")}

@@ -10,7 +10,7 @@ const key = new TextEncoder().encode(process.env.KEY || "secret");
 export async function encrypt(userId: string) {
     return await new SignJWT({ userId })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
-        .setExpirationTime(5 * 60 * 60 * 24)
+        .setExpirationTime(process.env.SESSION_TIME || "43829 min")
         .sign(key);
 }
 

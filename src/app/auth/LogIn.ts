@@ -10,7 +10,7 @@ export async function LogIn(userId: string){
         name: "user_id",
         value: token,
         httpOnly: true,
-        maxAge: 5 * 60 * 60 * 24,
+        maxAge: 60 * 60 * 24 * 30, // one month
         path: "/"
     })
 

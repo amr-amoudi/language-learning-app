@@ -8,7 +8,7 @@ import {
 import {ActionResult, Result, User} from './types';
 import returnErrorMessages from '../util/return-error-messages';
 import { redirect } from "next/navigation"
-import {LogIn} from "@/app/auth/LogIn/LogIn";
+import {LogIn} from "@/app/auth/LogIn";
 
 const CreateDeckSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -214,7 +214,8 @@ export async function LoginAction(prevState: unknown, formData: FormData): Promi
 }
 
 
-export default async function SignUpAction(prevState: unknown, formData: FormData) {
+export default async function SignUpAction(prevState: unknown, formData: FormData): Promise<ActionResult>{
+    console.log("i ran" )
     const validatedFields = creditialsSchema.safeParse({
         username: formData.get('username'),
         password: formData.get('password')
