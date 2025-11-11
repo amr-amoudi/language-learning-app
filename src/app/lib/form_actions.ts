@@ -204,7 +204,12 @@ export async function LoginAction(prevState: unknown, formData: FormData): Promi
 
     try {
         const userId = await getUsersByNameAndPassword(validatedFields.data?.username, validatedFields.data?.password);
-        console.log(userId)
+        if(userId.length === 0){
+            return {
+                errors: ["Invalid username or password"],
+                succeeded: false,
+            }
+        }
         await LogIn(userId[0].id)
     }catch (e) {
         console.log(e)
@@ -215,7 +220,6 @@ export async function LoginAction(prevState: unknown, formData: FormData): Promi
 
 
 export default async function SignUpAction(prevState: unknown, formData: FormData): Promise<ActionResult>{
-    console.log("i ran" )
     const validatedFields = creditialsSchema.safeParse({
         username: formData.get('username'),
         password: formData.get('password')
@@ -232,7 +236,16 @@ export default async function SignUpAction(prevState: unknown, formData: FormDat
         const user = await createNewUser(validatedFields.data.username, validatedFields.data.password);
         await LogIn(user[0].id)
     }catch (e) {
-        console.log(e)
+        if (e instanceof Error) {
+            console.log(e.message.includes("duplicate"));
+            return {
+                errors: e.message.includes("duplicate") ? ["Username already exists"] : [e.message],
+                succeeded: false,
+            }
+        } else {
+            console.log("Unknown error", e);
+            throw new Error("Something went wrong");
+        }
     }
 
     redirect("/words")

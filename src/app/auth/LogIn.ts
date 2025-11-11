@@ -13,6 +13,5 @@ export async function LogIn(userId: string){
         maxAge: 60 * 60 * 24 * 30, // one month
         path: "/"
     })
-
 }
 

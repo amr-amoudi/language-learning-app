@@ -15,7 +15,7 @@ export default async function mainPage() {
                 decks
                 &&
                 <>
-                    <div className="col-span-1">
+                    <div className="col-span-1 flex justify-start items-start">
                         <Link
                             className="font-medium bg-app_orange text-app_red-dark px-2 py-2 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow"
                             href={'/words/' + (decks[0]?.id || "")}>
@@ -23,7 +23,7 @@ export default async function mainPage() {
                         </Link>
                     </div>
                     <div className="col-end-4 col-start-3 flex justify-end items-start">
-                        <button className={"cursor-pointer text-xl font-medium bg-app_orange text-app_red-dark px-5 py-3 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow"} type={"submit"} onClick={logOut}>LogOut</button>
+                        <button className={"font-medium bg-app_orange text-app_red-dark px-2 py-2 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow cursor-pointer"} type={"submit"} onClick={logOut}>LogOut</button>
                         {/* burger button */}
                         {/*<button className="flex flex-col gap-1 cursor-pointer">*/}
                         {/*    <div className="w-7 h-1.5 bg-amber-500"></div>*/}
@@ -42,12 +42,14 @@ export default async function mainPage() {
             {
 
                 !decks &&
-                <div className="col-span-3 flex justify-center items-center">
-                    <Link
-                        className="font-medium bg-app_orange text-app_red-dark px-2 py-2 border-2 rounded-lg hover:bg-app_red-light border-app_yellow hover:text-app_yellow"
+                <div className="col-span-3 flex-col flex justify-center items-center">
+                    <h1 className={'mb-5 font-bold text-2xl'}>Welcome</h1>
+                    <p>Please Login to continue <Link
+                        className={"underline font-bold mt-2 text-app_orange"}
                         href={'/login'}>
-                        Login to continue
-                    </Link>
+                        Here
+                    </Link></p>
+
                 </div>
             }
         </div>

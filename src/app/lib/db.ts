@@ -11,8 +11,11 @@ export async function getUsersByNameAndPassword(username: string, password: stri
     SELECT * FROM users
     where ${username} = username;
   `;
-    console.log(user, "fawwhguiweahhuigrhgrhuigri")
-  return await bcrypt.compare(password,user[0].password) ? user : [];
+  try {
+      return await bcrypt.compare(password,user[0].password) ? user : [];
+  }catch (_) {
+        return [];
+  }
 }
 
 export async function createNewUser(username: string, password: string): Promise<User[]> {

@@ -12,7 +12,6 @@ export default async function Layout({children}: {children: React.ReactNode}) {
 
     return (
     <>
-        <h1>{JSON.stringify(payload)}</h1>
         <Link className="absolute top-3.5 left-2 text-app_yellow font-bold text-direct underline outline-none" href={'/'}>Go Back</Link>
         <DecksContent decks={decks}>
             { children }
